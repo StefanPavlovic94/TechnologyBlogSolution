@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TechnologyBlogSolution.Models;
+using TechnologyBlogSolution.Models.Users;
 
 namespace TechnologyBlogSolution.Controllers
 {
@@ -17,6 +19,7 @@ namespace TechnologyBlogSolution.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private RoleManager<IdentityRole> roleManager;
 
         public AccountController()
         {
@@ -481,5 +484,28 @@ namespace TechnologyBlogSolution.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        public ActionResult SeedAccount()
+        {
+            if (UserManager.Users.Count() == 0)
+            {
+                if (!roleManager.RoleExists("Admin"))
+                {
+                    roleManager.Create(new IdentityRole("Admin"));
+                }
+                Admin admin = new Admin()
+                {
+                    UserName = "admin@admin.com",
+                    Email = "admin@admin.com",
+                    
+                };
+            }
+            else
+            {
+                throw new InvalidOperationException("This operation is not valid!");
+            }
+            return Json("Success", JsonRequestBehavior.AllowGet);
+        }
     }
 }
