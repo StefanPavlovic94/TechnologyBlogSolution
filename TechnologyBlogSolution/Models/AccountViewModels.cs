@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TechnologyBlogSolution.Models
@@ -64,6 +65,23 @@ namespace TechnologyBlogSolution.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        [Display(Name = "Company")]
+        public string Company { get; set; }
+
+        [Display(Name = "Position")]
+        public string Position { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

@@ -195,17 +195,32 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805292013228_InitialCreate.cs" />
-    <Compile Include="Migrations\201805292013228_InitialCreate.Designer.cs">
-      <DependentUpon>201805292013228_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201805301908015_Initial.cs" />
+    <Compile Include="Migrations\201805301908015_Initial.Designer.cs">
+      <DependentUpon>201805301908015_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805302024044_AddedBusinessModelsDbSet.cs" />
+    <Compile Include="Migrations\201805302024044_AddedBusinessModelsDbSet.Designer.cs">
+      <DependentUpon>201805302024044_AddedBusinessModelsDbSet.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\BlogModels\Comment.cs" />
+    <Compile Include="Models\BlogModels\Post.cs" />
+    <Compile Include="Models\BlogModels\Subject.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Users\Admin.cs" />
+    <Compile Include="Models\Users\Role.cs" />
     <Compile Include="Models\Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Contracts\IRepository.cs" />
+    <Compile Include="Repository\Contracts\ISubjectRepository.cs" />
+    <Compile Include="Repository\Contracts\IUserRepository.cs" />
+    <Compile Include="Repository\Implementations\Repository.cs" />
+    <Compile Include="Repository\Implementations\SubjectRepository.cs" />
+    <Compile Include="Repository\Implementations\TechnologyBlogDbContext.cs" />
+    <Compile Include="Repository\Implementations\UserRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -282,8 +297,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805292013228_InitialCreate.resx">
-      <DependentUpon>201805292013228_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805301908015_Initial.resx">
+      <DependentUpon>201805301908015_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805302024044_AddedBusinessModelsDbSet.resx">
+      <DependentUpon>201805302024044_AddedBusinessModelsDbSet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

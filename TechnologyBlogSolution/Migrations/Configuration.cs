@@ -4,8 +4,9 @@ namespace TechnologyBlogSolution.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using TechnologyBlogSolution.Repository.Implementations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<TechnologyBlogSolution.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<TechnologyBlogDbContext>
     {
         public Configuration()
         {
@@ -13,7 +14,7 @@ namespace TechnologyBlogSolution.Migrations
             ContextKey = "TechnologyBlogSolution.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(TechnologyBlogSolution.Models.ApplicationDbContext context)
+        protected override void Seed(TechnologyBlogDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

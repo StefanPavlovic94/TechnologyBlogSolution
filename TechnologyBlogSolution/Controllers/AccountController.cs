@@ -11,24 +11,33 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.Users;
+using TechnologyBlogSolution.Repository.Implementations;
 
 namespace TechnologyBlogSolution.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private RoleManager<IdentityRole> roleManager;
-
+        private TechnologyBlogDbContext dbContext;
+        private ApplicationSignInManager _signInManager;
+        private ApplicationSignInManager signInManager
+        {
+            get
+            {
+                if (_signInManager == null)
+                {
+                    _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                }
+                return _signInManager;
+            }
+        }
         public AccountController()
         {
-        }
-
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            this.dbContext = new TechnologyBlogDbContext();
+            this.UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(this.dbContext));
+            this.roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(this.dbContext));
         }
 
         public ApplicationSignInManager SignInManager
@@ -37,9 +46,9 @@ namespace TechnologyBlogSolution.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -123,7 +132,7 @@ namespace TechnologyBlogSolution.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -154,12 +163,22 @@ namespace TechnologyBlogSolution.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser ()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    DateOfBirth = model.DateOfBirth,
+                    Company = model.Company,
+                    Position = model.Position,
+                    UserName = model.Email,
+                    Email = model.Email,
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                this.UserManager.AddToRole(user.Id, Role.User);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -485,21 +504,27 @@ namespace TechnologyBlogSolution.Controllers
         }
         #endregion
 
-        [HttpPost]
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult SeedAccount()
         {
             if (UserManager.Users.Count() == 0)
             {
                 if (!roleManager.RoleExists("Admin"))
                 {
-                    roleManager.Create(new IdentityRole("Admin"));
+                    roleManager.Create(new IdentityRole(Role.Admin));
+                    roleManager.Create(new IdentityRole(Role.User));
                 }
-                Admin admin = new Admin()
+                var admin = new Admin()
                 {
                     UserName = "admin@admin.com",
                     Email = "admin@admin.com",
-                    
+                    DateOfBirth = DateTime.Now,
+
                 };
+                UserManager.Create(admin);
+                UserManager.AddPassword(admin.Id, "AdminAdmin123");
+                UserManager.AddToRole(admin.Id, Role.Admin);
             }
             else
             {
