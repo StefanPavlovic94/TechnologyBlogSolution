@@ -4,11 +4,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataProtection;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Repository.Implementations;
@@ -85,6 +87,23 @@ namespace TechnologyBlogSolution.Controllers
                 return View(model);
             }
 
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
+            }
+
+            //Add this to check if the email was confirmed.
+            if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+            {
+                ModelState.AddModelError("", "You need to confirm your email.");
+                return View(model);
+            }
+            if (await UserManager.IsLockedOutAsync(user.Id))
+            {
+                return View("Lockout");
+            }
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -177,14 +196,14 @@ namespace TechnologyBlogSolution.Controllers
                 this.UserManager.AddToRole(user.Id, Role.User);
                 if (result.Succeeded)
                 {
+                    var provider = new DpapiDataProtectionProvider("TechnologyBlogSolution");
+                    UserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
+                        provider.Create("Email confirmation"));
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -352,6 +371,7 @@ namespace TechnologyBlogSolution.Controllers
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            
             switch (result)
             {
                 case SignInStatus.Success:
@@ -519,8 +539,7 @@ namespace TechnologyBlogSolution.Controllers
                 {
                     UserName = "admin@admin.com",
                     Email = "admin@admin.com",
-                    DateOfBirth = DateTime.Now,
-
+                    DateOfBirth = DateTime.Now
                 };
                 UserManager.Create(admin);
                 UserManager.AddPassword(admin.Id, "AdminAdmin123");

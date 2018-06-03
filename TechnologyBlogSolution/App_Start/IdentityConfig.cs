@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -28,8 +31,22 @@ namespace TechnologyBlogSolution
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
-            return Task.FromResult(0);
+            var smtp = new System.Net.Mail.SmtpClient();
+            var mail = new System.Net.Mail.MailMessage();
+
+            mail.IsBodyHtml = true;
+            var mailAddress = ConfigurationManager.AppSettings["TechBlogEmail"];
+            mail.From = new System.Net.Mail.MailAddress(mailAddress, "Technology blog");
+            mail.To.Add(message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+
+            var mailAddressPassword = ConfigurationManager.AppSettings["TechBlogPassword"];
+            smtp.Timeout = 1000;
+            smtp.Credentials = new NetworkCredential(mailAddress, mailAddressPassword);
+            var t = Task.Run(() => smtp.SendAsync(mail, null));
+
+            return t;
         }
     }
 
