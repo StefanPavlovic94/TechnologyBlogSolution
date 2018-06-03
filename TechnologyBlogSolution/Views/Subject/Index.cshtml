@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TechnologyBlogSolution.ViewModels.SubjectModels.DetailsSubjectView>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="text-align:center">
+    <h2>Subjects</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-10">    
+        @using (Html.BeginForm("CreateSubject", "Subject", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <span>
+                    Name:
+                    <input id="subject-name" class="form-control" type="text" name="Name"/>
+                </span>
+                <span>
+                    Description
+                    <textarea style="max-width:100%; width:70%" class="form-control" id="subject-description" name="Description"></textarea>
+                </span>
+                <input type="submit" class="btn btn-success" name="name" value="Submit" />
+            </div>  
+        }
+        <hr />
+        <div class="row">
+            @{
+                foreach (var item in Model)
+                {
+            <div class="col-md-4">
+                <div><b>@item.Name</b></div><br />
+                <div>@item.Description</div><br />
+                 <a href="#" class="btn btn-primary btn-sm">Open</a>
+            </div>
+                }
+            }
+        </div>
+    </div>
+</div>

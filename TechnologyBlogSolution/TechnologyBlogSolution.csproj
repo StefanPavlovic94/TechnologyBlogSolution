@@ -225,6 +225,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,6 +236,10 @@
     <Compile Include="Migrations\201805302024044_AddedBusinessModelsDbSet.cs" />
     <Compile Include="Migrations\201805302024044_AddedBusinessModelsDbSet.Designer.cs">
       <DependentUpon>201805302024044_AddedBusinessModelsDbSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806031537302_SoftDeleteFlagAdded.cs" />
+    <Compile Include="Migrations\201806031537302_SoftDeleteFlagAdded.Designer.cs">
+      <DependentUpon>201806031537302_SoftDeleteFlagAdded.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -255,7 +260,11 @@
     <Compile Include="Repository\Implementations\SubjectRepository.cs" />
     <Compile Include="Repository\Implementations\TechnologyBlogDbContext.cs" />
     <Compile Include="Repository\Implementations\UserRepository.cs" />
+    <Compile Include="Services\Contracts\ISubjectService.cs" />
+    <Compile Include="Services\Implementations\SubjectService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\SubjectModels\CreateSubjectView.cs" />
+    <Compile Include="ViewModels\SubjectModels\DetailsSubjectView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -357,11 +366,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Account\RegisterAdmin.cshtml" />
+    <Content Include="Views\Subject\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\Contracts\" />
-    <Folder Include="Services\Implementations\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -374,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805302024044_AddedBusinessModelsDbSet.resx">
       <DependentUpon>201805302024044_AddedBusinessModelsDbSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806031537302_SoftDeleteFlagAdded.resx">
+      <DependentUpon>201806031537302_SoftDeleteFlagAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

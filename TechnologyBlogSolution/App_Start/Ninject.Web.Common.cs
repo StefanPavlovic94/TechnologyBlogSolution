@@ -11,6 +11,10 @@ namespace TechnologyBlogSolution.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using Ninject.Web.Common.WebHost;
+    using TechnologyBlogSolution.Repository.Contracts;
+    using TechnologyBlogSolution.Repository.Implementations;
+    using TechnologyBlogSolution.Services.Contracts;
+    using TechnologyBlogSolution.Services.Implementations;
 
     public static class NinjectWebCommon 
     {
@@ -45,6 +49,9 @@ namespace TechnologyBlogSolution.App_Start
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+                kernel.Bind<TechnologyBlogDbContext>().ToSelf();
+                kernel.Bind<ISubjectService>().To<SubjectService>();
+                kernel.Bind<ISubjectRepository>().To<SubjectRepository>();
                 RegisterServices(kernel);
                 return kernel;
             }

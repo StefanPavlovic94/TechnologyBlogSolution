@@ -2,6 +2,7 @@
 using TechnologyBlogSolution.Repository.Contracts;
 using System.Linq;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace TechnologyBlogSolution.Repository.Implementations
 {
@@ -22,6 +23,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
             Subject subject = this.DbContext.Subjects
                 .FirstOrDefault(s => s.Id == id);
             this.DbContext.Subjects.Remove(subject);
+        }
+
+        public IEnumerable<Subject> GetSubjects()
+        {
+            return this.DbContext.Subjects.ToList();
         }
 
         public void UpdateSubject(Subject subject)

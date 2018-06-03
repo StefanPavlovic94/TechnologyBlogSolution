@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.ViewModels.SubjectModels;
 
 namespace TechnologyBlogSolution.Models
 {
@@ -10,7 +12,11 @@ namespace TechnologyBlogSolution.Models
     {
         public AutomapperProfile()
         {
-            //CreateMap<fromType, toType>();
+            CreateMap<CreateSubjectView, Subject>()
+                .ForMember(subj => subj.Id, opt => opt.Ignore())
+                .ForMember(subj => subj.IsDeleted, opt => opt.Ignore());
+
+            CreateMap<Subject, DetailsSubjectView>();
         }
     }
 }

@@ -213,6 +213,36 @@ namespace TechnologyBlogSolution.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterAdmin(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    DateOfBirth = model.DateOfBirth,
+                    Company = model.Company,
+                    Position = model.Position,
+                    UserName = model.Email,
+                    Email = model.Email,
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                this.UserManager.AddToRole(user.Id, Role.Admin);
+                if (result.Succeeded)
+                { 
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

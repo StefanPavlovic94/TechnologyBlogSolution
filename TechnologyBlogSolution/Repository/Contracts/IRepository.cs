@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechnologyBlogSolution.Repository.Contracts
 {
-    interface IRepository<TEntity> : IDisposable
+    public interface IRepository<TEntity> : IDisposable
     {
         void Add(TEntity entity);
         void Delete(TEntity entity);

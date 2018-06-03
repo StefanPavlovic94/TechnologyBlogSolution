@@ -10,6 +10,7 @@ namespace TechnologyBlogSolution.Models.BlogModels
         public int Id { get; set; }
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
     }
