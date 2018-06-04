@@ -22,7 +22,12 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.subjectRepository.Commit();
         }
 
-        public IEnumerable<Subject> GetServices()
+        public Subject GetSubject(int id)
+        {
+            return this.subjectRepository.GetSubject(id);
+        }
+
+        public IEnumerable<Subject> GetSubjects()
         {
             return this.subjectRepository.GetSubjects();
         }

@@ -1,0 +1,41 @@
+﻿@model TechnologyBlogSolution.ViewModels.SubjectModels.FullSubjectDetailsModel
+
+@{
+    ViewBag.Title = "Posts";
+}
+
+<div class="row">
+    @using (Html.BeginForm("CreatePost", "Post", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <input name="subjectId" value="@Model.Id" hidden="hidden" />
+            <span>
+                Name:
+                <input class="form-control" type="text" name="Name" />
+            </span>
+            <span>
+                Description
+                <textarea style="max-width:100%; width:100%;padding-left:0px" rows="10" cols="154" class="form-control" name="Content"></textarea>
+            </span>
+            <input type="submit" class="btn btn-success" name="name" value="Submit" />
+        </div>
+    }
+
+    @foreach (var post in Model.Posts)
+    {
+        <hr />
+        <div class="col-md-12" style="margin-bottom:3%; padding-left:0px">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@post.Name</h5>
+                    <p class="card-text">@post.Content</p>                  
+                </div>
+                <div class="card-footer text-muted">
+                    <div style="float:left">@post.Timestamp</div>
+                    <div style="float:right">@post.Author.Name</div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

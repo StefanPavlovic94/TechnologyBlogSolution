@@ -52,6 +52,8 @@ namespace TechnologyBlogSolution.App_Start
                 kernel.Bind<TechnologyBlogDbContext>().ToSelf();
                 kernel.Bind<ISubjectService>().To<SubjectService>();
                 kernel.Bind<ISubjectRepository>().To<SubjectRepository>();
+                kernel.Bind<IPostRepository>().To<PostRepository>();
+                kernel.Bind<IPostService>().To<PostService>();
                 RegisterServices(kernel);
                 return kernel;
             }

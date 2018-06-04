@@ -11,6 +11,7 @@ namespace TechnologyBlogSolution.Services.Contracts
     public interface ISubjectService
     {
         void CreateSubject(Subject subject);
-        IEnumerable<Subject> GetServices();
+        IEnumerable<Subject> GetSubjects();
+        Subject GetSubject(int id);
     }
 }

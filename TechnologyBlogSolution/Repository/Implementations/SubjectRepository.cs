@@ -12,6 +12,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
             : base(dbContext)
         {
         }
+        public Subject GetSubject(int id)
+        {
+            return this.DbContext.Subjects.Include(s => s.Posts)
+                                          .FirstOrDefault(s => s.Id == id);
+        }
 
         public void AddSubject(Subject subject)
         {

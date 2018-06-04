@@ -3,15 +3,12 @@
     ViewBag.Title = "Index";
 }
 
-<div style="text-align:center">
-    <h2>Subjects</h2>
+<div style="text-align:center; margin-top:3%">
+    <h2>Subject</h2>
 </div>
+<hr />
 
-<div class="row">
-    <div class="col-md-2">
-
-    </div>
-    <div class="col-md-10">    
+<div class="row"> 
         @using (Html.BeginForm("CreateSubject", "Subject", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
@@ -22,7 +19,7 @@
                 </span>
                 <span>
                     Description
-                    <textarea style="max-width:100%; width:70%" class="form-control" id="subject-description" name="Description"></textarea>
+                    <textarea style="max-width:100%; width:100%" rows="4" cols="100" class="form-control" name="Description"></textarea>
                 </span>
                 <input type="submit" class="btn btn-success" name="name" value="Submit" />
             </div>  
@@ -30,15 +27,20 @@
         <hr />
         <div class="row">
             @{
-                foreach (var item in Model)
-                {
+        foreach (var item in Model)
+        {
             <div class="col-md-4">
-                <div><b>@item.Name</b></div><br />
-                <div>@item.Description</div><br />
-                 <a href="#" class="btn btn-primary btn-sm">Open</a>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Description</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="~/Subject/Posts/@item.Id" class="btn btn-primary btn-sm">Open</a>
+                    </div>
+                </div>
             </div>
-                }
+}
             }
         </div>
     </div>
-</div>
