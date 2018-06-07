@@ -21,5 +21,9 @@ namespace TechnologyBlogSolution.Repository.Contracts
         /// </summary>
         /// <returns></returns>
         ResponseMetadata DeletePost(int postId);
+
+        void EditPost(Post post);
+
+        Post GetPost(int id);
     }
 }

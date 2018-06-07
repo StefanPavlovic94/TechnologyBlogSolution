@@ -14,6 +14,7 @@ using Microsoft.Owin.Security.DataProtection;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Repository.Implementations;
+using TechnologyBlogSolution.ViewModels;
 
 namespace TechnologyBlogSolution.Controllers
 {
@@ -457,8 +458,6 @@ namespace TechnologyBlogSolution.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()

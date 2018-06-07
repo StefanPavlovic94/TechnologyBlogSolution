@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TechnologyBlogSolution.ViewModels.PostModels
+namespace TechnologyBlogSolution.Models.DTO.Post
 {
-    public class CreatePostView
+    public class EditPostDto
     {
-        public int SubjectId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
     }

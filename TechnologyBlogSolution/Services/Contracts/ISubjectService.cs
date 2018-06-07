@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Services.Description;
+﻿using System.Collections.Generic;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Subject;
 
 namespace TechnologyBlogSolution.Services.Contracts
 {
     public interface ISubjectService
     {
-        void CreateSubject(Subject subject);
         IEnumerable<Subject> GetSubjects();
         Subject GetSubject(int id);
+
+        void CreateSubject(CreateSubjectDto subject);
+        void DeleteSubject(int id);
+        void EditSubject(Subject subject);
+
+        IEnumerable<SimpleSubjectDto> GetSimpleSubjects();
     }
 }

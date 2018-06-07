@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Admin panel";
+}
+
+<div>
+    <h3><b>Admin panel</b></h3>
+</div>
+
+@using (Html.BeginForm("CreatePost", "Post", FormMethod.Post))
+{
+    <div class="form-group">
+        <hr style="height:1px;border:none;color:#333;background-color:#333;" />  
+        <div><h3>Add post</h3></div>
+        @Html.AntiForgeryToken()
+        <br />
+        <span>
+        Subject:
+        <select class="form-control" name="SubjectId">
+            @foreach (var item in ViewData["Subjects"] as IEnumerable<TechnologyBlogSolution.ViewModels.DtoViewModels.SimpleSubjectDtoView>)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+        </span>
+        <div class="form-group">
+            <br />
+            <span>
+                Name:
+                <input class="form-control" type="text" name="Name" />
+            </span>
+            <br />
+            <span>
+                Content
+                <textarea style="max-width:100%; width:100%" rows="4" cols="100" class="form-control" name="Content"></textarea>
+            </span>
+            <input type="submit" class="btn btn-success" name="name" value="Submit" />
+        </div>
+    </div>
+}
+
+
+@using (Html.BeginForm("CreateSubject", "Subject", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+        <div><h3>Add subject</h3></div>
+        <br />
+        <span>
+            Name:
+            <input id="subject-name" class="form-control" type="text" name="Name" />
+        </span>
+        <br />
+        <span>
+            Description
+            <textarea style="max-width:100%; width:100%" rows="4" cols="100" class="form-control" name="Description"></textarea>
+        </span>
+        <input type="submit" class="btn btn-success" name="name" value="Submit" />
+    </div>
+}

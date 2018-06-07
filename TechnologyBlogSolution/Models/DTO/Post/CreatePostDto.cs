@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TechnologyBlogSolution.ViewModels.PostModels
+namespace TechnologyBlogSolution.Models.DTO.Post
 {
-    public class CreatePostView
+    public class CreatePostDto
     {
         public int SubjectId { get; set; }
         public string Name { get; set; }

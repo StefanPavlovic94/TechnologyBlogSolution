@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Subject;
+using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Services.Contracts;
 using TechnologyBlogSolution.ViewModels.PostModels;
 using TechnologyBlogSolution.ViewModels.SubjectModels;
@@ -28,19 +30,7 @@ namespace TechnologyBlogSolution.Controllers
             return View(subjectDetailsViews);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateSubject(CreateSubjectView createSubjectView)
-        {
-            if (ViewData.ModelState.IsValid)
-            {
-                Subject subject = Mapper.Map<Subject>(createSubjectView);
-                this.subjectService.CreateSubject(subject);
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
+      
         [HttpGet]
         public ActionResult Posts(int id)
         {
@@ -55,6 +45,16 @@ namespace TechnologyBlogSolution.Controllers
                 fullSubjectDetails.Posts.Add(detailsPost);
             }    
             return View(fullSubjectDetails);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult CreateSubject(CreateSubjectView createSubjectView)
+        {
+            CreateSubjectDto subjectDto = Mapper.Map<CreateSubjectDto>(createSubjectView);
+            this.subjectService.CreateSubject(subjectDto);
+            return RedirectToAction("Index");
         }
     }
 }

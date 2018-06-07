@@ -4,32 +4,15 @@
 }
 
 <div style="text-align:center; margin-top:3%">
-    <h2>Subject</h2>
+    <h2>Subjects</h2>
 </div>
 <hr />
 
 <div class="row"> 
-        @using (Html.BeginForm("CreateSubject", "Subject", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <div class="form-group">
-                <span>
-                    Name:
-                    <input id="subject-name" class="form-control" type="text" name="Name"/>
-                </span>
-                <span>
-                    Description
-                    <textarea style="max-width:100%; width:100%" rows="4" cols="100" class="form-control" name="Description"></textarea>
-                </span>
-                <input type="submit" class="btn btn-success" name="name" value="Submit" />
-            </div>  
-        }
-        <hr />
-        <div class="row">
             @{
         foreach (var item in Model)
         {
-            <div class="col-md-4">
+            <div class="col-md-4" style="margin-bottom:3%">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
@@ -43,4 +26,3 @@
 }
             }
         </div>
-    </div>

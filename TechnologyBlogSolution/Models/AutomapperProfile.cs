@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using System;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Post;
+using TechnologyBlogSolution.Models.DTO.Subject;
+using TechnologyBlogSolution.ViewModels.DtoViewModels;
 using TechnologyBlogSolution.ViewModels.PostModels;
 using TechnologyBlogSolution.ViewModels.SubjectModels;
 
@@ -26,7 +30,29 @@ namespace TechnologyBlogSolution.Models
 
             CreateMap<FullSubjectDetailsModel, Subject>();
 
-            CreateMap<CreatePostView, Post>();
+            CreateMap<CreatePostView, CreatePostDto>();
+
+            CreateMap<CreatePostDto, Post>()
+                .ForMember(p => p.Timestamp, opt => opt
+                    .UseValue(DateTime.Now));
+
+            CreateMap<SimpleSubjectDto, SimpleSubjectDtoView>()
+                .ForMember(s => s.Id, opt => opt
+                    .MapFrom(src => src.Id))
+                .ForMember(s => s.Name, opt => opt
+                    .MapFrom(s => s.Name));
+
+            CreateMap<SimpleSubjectDtoView, SimpleSubjectDto>();
+
+            CreateMap<CreateSubjectView, CreateSubjectDto>();
+
+            CreateMap<CreateSubjectDto, Subject>();
+
+            CreateMap<EditPostView, EditPostDto>();
+
+            CreateMap<EditPostDto, Post>();
+
+            CreateMap<Post, EditPostView>();
         }
     }
 }

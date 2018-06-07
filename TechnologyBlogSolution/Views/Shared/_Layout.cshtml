@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body style="font-family:'Segoe UI'">
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
         <div class="container">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></button>
@@ -16,13 +16,14 @@
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="/Subject/Index" class="nav-link">Subjects</a></li>
+                    @if (User.IsInRole(TechnologyBlogSolution.Models.Users.Role.Admin))
+        {
+            <li class="nav-item"><a href="/Admin/Index" class="nav-link">Admin</a></li>
+}
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right" style="float:right">
-                    <li class="nav-item"><a href="/Account/Register" id="registerLink" class="nav-link">Register</a></li>
-                    <li class="nav-item"><a href="/Account/Login" id="loginLink" class="nav-link">Log in</a></li>
-                </ul>
-
+                <ul class="nav navbar-nav navbar-right" style="float:right"></ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </nav>

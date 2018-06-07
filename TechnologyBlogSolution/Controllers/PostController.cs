@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AutoMapper;
 using System.Web.Mvc;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Post;
+using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Services.Contracts;
 using TechnologyBlogSolution.ViewModels.PostModels;
 
@@ -13,17 +12,49 @@ namespace TechnologyBlogSolution.Controllers
     {
         private IPostService postService;
 
-        public PostController(IPostService postServiceDependency)
+        public PostController(IPostService postServ)
         {
-            this.postService = postServiceDependency;
+            this.postService = postServ;
+        }
+        // GET: Post
+        public ActionResult Index()
+        {
+            return View();
         }
 
         [HttpPost]
-        public ActionResult CreatePost(CreatePostView createPost, int subjectId)
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult DeletePost(int id)
         {
-            Post post = AutoMapper.Mapper.Map<Post>(createPost);
-            this.postService.CreatePost(post, subjectId);
-            return RedirectToAction("Posts", "Subject", new { id = subjectId});
+            this.postService.DeletePost(id);
+            return RedirectToAction("Index", "Subject");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult EditPost(int id)
+        {
+            Post post = this.postService.GetPost(id);
+            EditPostView editPostView = Mapper.Map<EditPostView>(post);
+            return View(editPostView);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult EditPost(EditPostView editPost)
+        {
+            EditPostDto editPostDto = Mapper.Map<EditPostDto>(editPost);
+            this.postService.EditPost(editPostDto);
+            return RedirectToAction("Index", "Subject");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult CreatePost(CreatePostView createPostView)
+        {
+            CreatePostDto createPost = Mapper.Map<CreatePostDto>(createPostView);
+            this.postService.CreatePost(createPost);
+            return RedirectToAction("Index", "Subject");
         }
     }
 }

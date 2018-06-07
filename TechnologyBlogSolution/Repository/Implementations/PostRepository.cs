@@ -28,8 +28,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
             {
                 Subject subject = this.DbContext.Subjects
                     .FirstOrDefault(subj => subj.Id == subjectId);
+
                 string authorName = System.Web.HttpContext.Current.User.Identity.Name;
+
                 ApplicationUser user = this.DbContext.Users.FirstOrDefault(u => u.UserName == authorName);
+
                 post.Timestamp = DateTime.Now;
                 post.Author = user;
                 subject.Posts.Add(post);
@@ -64,6 +67,18 @@ namespace TechnologyBlogSolution.Repository.Implementations
             }
             response.ErrorMessage = null;
             return response;
+        }
+
+        public void EditPost(Post post)
+        {
+            Post existingPost = this.DbContext.Posts.FirstOrDefault(p => p.Id == post.Id);
+            existingPost.Name = post.Name;
+            existingPost.Content = post.Content;
+        }
+
+        public Post GetPost(int id)
+        {
+           return this.DbContext.Posts.FirstOrDefault(p => p.Id == id);
         }
     }
 }
