@@ -1,7 +1,66 @@
-﻿
+﻿@model TechnologyBlogSolution.Models.DTO.Post.DetailsPostDto
+
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>Author name</dt>
+        
+        <dd>@Model.Author.FullName</dd>
+    </dl>
+</div>
+
+<div>
+    @using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+    <div>
+        <textarea class="form-control" name="Content"></textarea>
+        <input hidden name="Id" value="@Model.Id" />
+        <input type="submit" name="name" value="Add comment" class="btn btn-success" />
+    </div>
+    }
+</div>
+    
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @foreach (var comment in Model.Comments)
+    {
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">@comment.Content</p>
+            </div>
+            <div class="card-footer text-muted">
+                <div style="float:left">@comment.Timestamp</div>
+                <div style="float:right">@comment.Author.FullName</div>
+            </div>
+            </div>
+        <br />
+            }
+        </div>
+    </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

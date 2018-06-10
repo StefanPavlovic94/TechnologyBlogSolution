@@ -22,7 +22,7 @@ namespace TechnologyBlogSolution.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = Role.Admin)]
         public ActionResult DeletePost(int id)
         {
@@ -55,6 +55,16 @@ namespace TechnologyBlogSolution.Controllers
             CreatePostDto createPost = Mapper.Map<CreatePostDto>(createPostView);
             this.postService.CreatePost(createPost);
             return RedirectToAction("Index", "Subject");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Open(int id)
+        {
+            Post post = this.postService.GetPost(id);
+            DetailsPostDto detailsPost =
+                Mapper.Map<DetailsPostDto>(post);
+            return View("Index",detailsPost);
         }
     }
 }

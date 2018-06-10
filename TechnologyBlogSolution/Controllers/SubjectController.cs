@@ -23,6 +23,7 @@ namespace TechnologyBlogSolution.Controllers
         }
   
         [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             IEnumerable<Subject> subjects = this.subjectService.GetSubjects();
@@ -32,6 +33,7 @@ namespace TechnologyBlogSolution.Controllers
 
       
         [HttpGet]
+        [Authorize]
         public ActionResult Posts(int id)
         {
             Subject subject = this.subjectService.GetSubject(id);

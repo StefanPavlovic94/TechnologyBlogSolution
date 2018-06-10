@@ -17,6 +17,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
         public Subject GetSubject(int id)
         {
             return this.DbContext.Subjects.Include(s => s.Posts)
+                                          .Where(p => p.IsDeleted == false)
                                           .FirstOrDefault(s => s.Id == id);
         }
 

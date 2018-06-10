@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Repository.Contracts;
 using TechnologyBlogSolution.Services.Contracts;
@@ -22,11 +21,6 @@ namespace TechnologyBlogSolution.Services.Implementations
         public Post GetPost(int id)
         {
             return this.postRepository.GetPost(id);
-        }
-
-        public IEnumerable<Post> GetPosts()
-        {
-            throw new NotImplementedException();
         }
 
         public void DeletePost(int id)
@@ -51,5 +45,13 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.postRepository.Commit();
         }
 
+        public void AddComment(CreateCommentDto commentDto)
+        {
+            Comment comment = Mapper.Map<Comment>(commentDto);
+            comment.Timestamp = DateTime.Now;
+            comment.IsDeleted = false;
+            this.postRepository.AddComment(comment, commentDto.PostId);
+            this.postRepository.Commit();
+        }
     }
 }

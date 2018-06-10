@@ -18,7 +18,6 @@ using TechnologyBlogSolution.ViewModels;
 
 namespace TechnologyBlogSolution.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;

@@ -8,7 +8,6 @@ using TechnologyBlogSolution.ViewModels.DtoViewModels;
 
 namespace TechnologyBlogSolution.Controllers
 {
-    [Authorize(Roles = Role.Admin)]
     public class AdminController : Controller
     {
         private readonly ISubjectService subjectService;
@@ -26,10 +25,6 @@ namespace TechnologyBlogSolution.Controllers
                 = this.subjectService.GetSimpleSubjects();
             ViewData["Subjects"] = Mapper.Map<List<SimpleSubjectDtoView>>(simpleSubjects);
             return View();
-        }
-
-    
-
-        
+        } 
     }
 }

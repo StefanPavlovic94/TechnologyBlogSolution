@@ -12,8 +12,11 @@
         <div class="col-md-12" style="margin-bottom:3%; padding-left:0px">
             <div class="card">
                 <div>
-                Actions:
-                    <div>@Html.ActionLink("Edit","EditPost", "Post", new { post.Id }, new { @class="btn btn-primary"})</div>
+                    <span>
+                        @Html.ActionLink("Edit", "EditPost", "Post", new { post.Id }, new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Delete", "DeletePost", "Post", new { post.Id }, new { @class = "btn btn-danger btn-sm" })
+                        @Html.ActionLink("Open", "Open", "Post", new { post.Id }, new { @class = "btn btn-success btn-sm" })
+                    </span>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">@post.Name</h5>

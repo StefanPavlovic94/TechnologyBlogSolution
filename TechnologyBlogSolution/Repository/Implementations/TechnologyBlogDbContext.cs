@@ -7,6 +7,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
 {
     public class TechnologyBlogDbContext : IdentityDbContext<ApplicationUser>
     {
+        public TechnologyBlogDbContext() : base("DefaultConnection",true)
+        {
+
+        }
+
         public DbSet<Subject> Subjects { get; set;}
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }

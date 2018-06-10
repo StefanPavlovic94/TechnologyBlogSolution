@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using System;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
+using TechnologyBlogSolution.Models.DTO.User;
+using TechnologyBlogSolution.ViewModels.CommentModels;
 using TechnologyBlogSolution.ViewModels.DtoViewModels;
 using TechnologyBlogSolution.ViewModels.PostModels;
 using TechnologyBlogSolution.ViewModels.SubjectModels;
@@ -53,6 +56,18 @@ namespace TechnologyBlogSolution.Models
             CreateMap<EditPostDto, Post>();
 
             CreateMap<Post, EditPostView>();
+
+            CreateMap<Post, DetailsPostDto>();
+
+            CreateMap<ApplicationUser, DetailsUserDto>()
+                .ForPath(u => u.FullName, opt => opt
+                    .MapFrom(src => src.UserName));
+
+            CreateMap<AddCommentView, CreateCommentDto>()
+                .ForMember(c => c.PostId, opt => opt
+                    .MapFrom(src => src.Id));
+
+            CreateMap<CreateCommentDto, Comment>();
         }
     }
 }

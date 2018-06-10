@@ -25,5 +25,7 @@ namespace TechnologyBlogSolution.Repository.Contracts
         void EditPost(Post post);
 
         Post GetPost(int id);
+
+        void AddComment(Comment comment, int postId);
     }
 }

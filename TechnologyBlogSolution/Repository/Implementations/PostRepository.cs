@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,6 +14,16 @@ namespace TechnologyBlogSolution.Repository.Implementations
     {
         public PostRepository(TechnologyBlogDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public void AddComment(Comment comment, int postId)
+        {
+            Post post = this.DbContext.Posts.Include(p => p.Comments)
+                .FirstOrDefault(p => p.Id == postId);
+
+            string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            comment.Author = this.DbContext.Users.FirstOrDefault(u => u.Id == userId);
+            post.Comments.Add(comment);
         }
 
         /// <summary>
