@@ -1,18 +1,16 @@
-﻿
+﻿using System;
 using System.Collections.Generic;
-using TechnologyBlogSolution.ViewModels.CommentModels;
+using System.Linq;
+using System.Web;
 using TechnologyBlogSolution.ViewModels.UserModels;
 
-namespace TechnologyBlogSolution.ViewModels.PostModels
+namespace TechnologyBlogSolution.ViewModels.CommentModels
 {
-    public class DetailsPostView
+    public class DetailsCommentView
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public string Content { get; set; }
         public string Timestamp { get; set; }
-
-        public List<DetailsCommentView> Comments { get; set; }
 
         public SimpleUserView Author { get; set; }
     }

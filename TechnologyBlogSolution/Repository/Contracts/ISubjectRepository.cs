@@ -8,9 +8,7 @@ namespace TechnologyBlogSolution.Repository.Contracts
     {
         Subject GetSubject(int id);
         IEnumerable<Subject> GetSubjects();
-        void AddSubject(Subject subject);
         void DeleteSubject(int id);
-        void EditSubject(Subject subject);
         IEnumerable<SimpleSubjectDto> GetSimpleSubjects();
     }
 }

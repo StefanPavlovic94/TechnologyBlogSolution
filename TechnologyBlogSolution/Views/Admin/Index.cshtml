@@ -17,7 +17,7 @@
         <span>
         Subject:
         <select class="form-control" name="SubjectId">
-            @foreach (var item in ViewData["Subjects"] as IEnumerable<TechnologyBlogSolution.ViewModels.DtoViewModels.SimpleSubjectDtoView>)
+            @foreach (var item in ViewData["Subjects"] as IEnumerable<TechnologyBlogSolution.ViewModels.SubjectModels.SimpleSubjectView>)
             {
                 <option value="@item.Id">@item.Name</option>
             }

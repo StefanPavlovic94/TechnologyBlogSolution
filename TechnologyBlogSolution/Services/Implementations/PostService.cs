@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
@@ -18,9 +20,14 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.postRepository = postRepo;
         }
 
-        public Post GetPost(int id)
+        public DetailsPostDto GetPost(int id)
         {
-            return this.postRepository.GetPost(id);
+            Post post = this.postRepository.GetPost(id);
+            DetailsPostDto detailsPost 
+                = Mapper.Map<DetailsPostDto>(post);
+            detailsPost.Comments = detailsPost.Comments
+                .OrderByDescending(p => p.Timestamp).ToList();
+            return detailsPost;
         }
 
         public void DeletePost(int id)
@@ -38,9 +45,7 @@ namespace TechnologyBlogSolution.Services.Implementations
 
         public void EditPost(EditPostDto postDto)
         {
-            Post post = this.GetPost(postDto.Id);
-            post.Name = postDto.Name;
-            post.Content = postDto.Content;
+            Post post = Mapper.Map<Post>(postDto);
             this.postRepository.EditPost(post);
             this.postRepository.Commit();
         }
@@ -52,6 +57,14 @@ namespace TechnologyBlogSolution.Services.Implementations
             comment.IsDeleted = false;
             this.postRepository.AddComment(comment, commentDto.PostId);
             this.postRepository.Commit();
+        }
+
+        public IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts)
+        {
+            IEnumerable<Post> posts = this.postRepository
+                .GetNewestPosts(numberOfPosts);
+
+            return Mapper.Map<IEnumerable<ListPostDto>>(posts);
         }
     }
 }

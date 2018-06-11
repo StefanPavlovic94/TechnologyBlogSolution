@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
 using TechnologyBlogSolution.Models.DTO.Subject;
+using AutoMapper;
 
 namespace TechnologyBlogSolution.Repository.Implementations
 {
@@ -15,21 +16,17 @@ namespace TechnologyBlogSolution.Repository.Implementations
         }
 
         public Subject GetSubject(int id)
-        {
+        { 
             return this.DbContext.Subjects.Include(s => s.Posts)
-                                          .Where(p => p.IsDeleted == false)
+                                          .Where(s => s.IsDeleted == false)
                                           .FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Subject> GetSubjects()
         {
-            return this.DbContext.Subjects.ToList();
-        }
-
-        public void AddSubject(Subject subject)
-        {
-            this.DbContext.Subjects.Add(subject);
-        }
+            return this.DbContext.Subjects
+                .Where(s => s.IsDeleted == false).ToList();
+        } 
 
         public void DeleteSubject(int id)
         {
@@ -37,16 +34,10 @@ namespace TechnologyBlogSolution.Repository.Implementations
             subject.IsDeleted = true;
         }
 
-        public void EditSubject(Subject subject)
-        {
-            Subject existingSubject = this.DbContext.Subjects.FirstOrDefault(sub => sub.Id == subject.Id);
-            existingSubject.Description = subject.Description;
-            existingSubject.Name = subject.Name;
-        }
-
         public IEnumerable<SimpleSubjectDto> GetSimpleSubjects()
         {
-            return this.DbContext.Subjects.Select(subj => new SimpleSubjectDto()
+            return this.DbContext.Subjects
+                .Select(subj => new SimpleSubjectDto()
             {
                 Id = subj.Id,
                 Name = subj.Name

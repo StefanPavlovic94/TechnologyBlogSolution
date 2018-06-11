@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Services.Contracts;
@@ -26,8 +22,9 @@ namespace TechnologyBlogSolution.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            IEnumerable<Subject> subjects = this.subjectService.GetSubjects();
-            IEnumerable<DetailsSubjectView> subjectDetailsViews = Mapper.Map<IEnumerable<DetailsSubjectView>>(subjects);
+            IEnumerable<ListSubjectDto> subjects = this.subjectService.GetSubjects();
+            IEnumerable<ListSubjectView> subjectDetailsViews 
+                = Mapper.Map<IEnumerable<ListSubjectView>>(subjects);
             return View(subjectDetailsViews);
         }
 
@@ -36,16 +33,13 @@ namespace TechnologyBlogSolution.Controllers
         [Authorize]
         public ActionResult Posts(int id)
         {
-            Subject subject = this.subjectService.GetSubject(id);
-            FullSubjectDetailsModel fullSubjectDetails =
-                AutoMapper.Mapper.Map<FullSubjectDetailsModel>(subject);
+            DetailsSubjectDto subject = this.subjectService.GetSubject(id);
+            DetailsSubjectView fullSubjectDetails =
+                Mapper.Map<DetailsSubjectView>(subject);
 
-            fullSubjectDetails.Posts = new List<DetailsPostView>();
-            foreach (Post post in subject.Posts)
-            {
-                DetailsPostView detailsPost = AutoMapper.Mapper.Map<DetailsPostView>(post);
-                fullSubjectDetails.Posts.Add(detailsPost);
-            }    
+            fullSubjectDetails.Posts =
+                Mapper.Map<List<ListPostView>>(subject.Posts);
+
             return View(fullSubjectDetails);
         }
 
@@ -54,7 +48,8 @@ namespace TechnologyBlogSolution.Controllers
         [Authorize(Roles = Role.Admin)]
         public ActionResult CreateSubject(CreateSubjectView createSubjectView)
         {
-            CreateSubjectDto subjectDto = Mapper.Map<CreateSubjectDto>(createSubjectView);
+            CreateSubjectDto subjectDto
+                = Mapper.Map<CreateSubjectDto>(createSubjectView);
             this.subjectService.CreateSubject(subjectDto);
             return RedirectToAction("Index");
         }

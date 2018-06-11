@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Services.Contracts;
-using TechnologyBlogSolution.ViewModels.DtoViewModels;
+using TechnologyBlogSolution.ViewModels.SubjectModels;
 
 namespace TechnologyBlogSolution.Controllers
 {
@@ -23,7 +23,7 @@ namespace TechnologyBlogSolution.Controllers
         {
             IEnumerable<SimpleSubjectDto> simpleSubjects 
                 = this.subjectService.GetSimpleSubjects();
-            ViewData["Subjects"] = Mapper.Map<List<SimpleSubjectDtoView>>(simpleSubjects);
+            ViewData["Subjects"] = Mapper.Map<List<SimpleSubjectView>>(simpleSubjects);
             return View();
         } 
     }

@@ -27,5 +27,7 @@ namespace TechnologyBlogSolution.Repository.Contracts
         Post GetPost(int id);
 
         void AddComment(Comment comment, int postId);
+
+        IEnumerable<Post> GetNewestPosts(int numberOfPosts);
     }
 }

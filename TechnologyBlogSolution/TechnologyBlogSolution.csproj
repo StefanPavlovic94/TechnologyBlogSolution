@@ -249,13 +249,20 @@
       <DependentUpon>201806042045135_ChangedRelationToVirtual.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\DTO\Comment\CommentDto.cs" />
+    <Compile Include="Models\DTO\Comment\ListCommentDto.cs" />
     <Compile Include="Models\DTO\Comment\CreateCommentDto.cs" />
     <Compile Include="Models\DTO\Post\CreatePostDto.cs" />
     <Compile Include="Models\DTO\Post\DetailsPostDto.cs" />
+    <Compile Include="Models\DTO\Post\ListPostDto.cs" />
     <Compile Include="Models\DTO\Subject\CreateSubjectDto.cs" />
     <Compile Include="Models\DTO\Post\EditPostDto.cs" />
+    <Compile Include="Models\DTO\Subject\DetailsSubjectDto.cs" />
+    <Compile Include="Models\DTO\Subject\EditSubjectDto.cs" />
+    <Compile Include="Models\DTO\Subject\ListSubjectDto.cs" />
+    <Compile Include="Models\DTO\User\CreateUserDto.cs" />
     <Compile Include="Models\DTO\User\DetailsUserDto.cs" />
+    <Compile Include="Models\DTO\User\EditUserDto.cs" />
+    <Compile Include="Models\DTO\User\ListUserDto.cs" />
     <Compile Include="Services\Contracts\IPostService.cs" />
     <Compile Include="Services\Implementations\PostService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -284,14 +291,20 @@
     <Compile Include="Services\Implementations\SubjectService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CommentModels\AddCommentView.cs" />
-    <Compile Include="ViewModels\DtoViewModels\SimpleSubjectDtoView.cs" />
+    <Compile Include="ViewModels\CommentModels\DetailsCommentView.cs" />
+    <Compile Include="ViewModels\PostModels\ListPostView.cs" />
+    <Compile Include="ViewModels\SubjectModels\EditSubjectView.cs" />
+    <Compile Include="ViewModels\SubjectModels\ListSubjectView.cs" />
+    <Compile Include="ViewModels\SubjectModels\SimpleSubjectView.cs" />
     <Compile Include="ViewModels\PostModels\CreatePostView.cs" />
     <Compile Include="ViewModels\PostModels\DetailsPostView.cs" />
     <Compile Include="ViewModels\PostModels\EditPostView.cs" />
     <Compile Include="ViewModels\SubjectModels\CreateSubjectView.cs" />
     <Compile Include="ViewModels\SubjectModels\DetailsSubjectView.cs" />
-    <Compile Include="ViewModels\SubjectModels\FullSubjectDetailsModel.cs" />
+    <Compile Include="ViewModels\UserModels\CreateUserView.cs" />
     <Compile Include="ViewModels\UserModels\DetailsUserView.cs" />
+    <Compile Include="ViewModels\UserModels\EditUserView.cs" />
+    <Compile Include="ViewModels\UserModels\SimpleUserView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -362,7 +375,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />

@@ -11,10 +11,12 @@ namespace TechnologyBlogSolution.Services.Contracts
 {
     public interface IPostService
     {
-        Post GetPost(int id);
+        DetailsPostDto GetPost(int id);
         void CreatePost(CreatePostDto createPost);
         void DeletePost(int id);
         void EditPost(EditPostDto post);
         void AddComment(CreateCommentDto commentDto);
+
+        IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts);
     }
 }

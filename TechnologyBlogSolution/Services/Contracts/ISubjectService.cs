@@ -6,12 +6,12 @@ namespace TechnologyBlogSolution.Services.Contracts
 {
     public interface ISubjectService
     {
-        IEnumerable<Subject> GetSubjects();
-        Subject GetSubject(int id);
+        IEnumerable<ListSubjectDto> GetSubjects();
+        DetailsSubjectDto GetSubject(int id);
 
         void CreateSubject(CreateSubjectDto subject);
         void DeleteSubject(int id);
-        void EditSubject(Subject subject);
+        void EditSubject(EditSubjectDto subject);
 
         IEnumerable<SimpleSubjectDto> GetSimpleSubjects();
     }

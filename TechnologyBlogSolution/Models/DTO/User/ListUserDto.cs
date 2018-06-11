@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TechnologyBlogSolution.ViewModels.UserModels
+namespace TechnologyBlogSolution.Models.DTO.User
 {
-    public class DetailsUserView
+    public class ListUserDto
     {
         public string Id { get; set; }
         public string FirstName { get; set; }

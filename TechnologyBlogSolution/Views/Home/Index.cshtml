@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<TechnologyBlogSolution.ViewModels.PostModels.ListPostView>
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -7,5 +8,39 @@
 </div>
 
 <div class="row">
-    Hello world row
-</div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-8">
+        @foreach (var post in Model)
+        {
+        <div class="card" style="width:100%; margin-bottom:3%">
+            <div class="card-body">
+                @post.Content
+            </div>
+            <div class="card-footer">
+                <div style="float:left; margin-right:3%">@post.Author.Name</div>
+                <div style="float:left">  @post.Timestamp</div>
+                <div style="float:right">
+                    @*<input type="button" value="Show more" class="btn btn-primary btn-sm" onclick="showMore(@post.Id)" />*@
+                    @Html.ActionLink("Open", "Open", "Post", new { id = post.Id}, new { @class="btn btn-success"})
+                </div>
+            </div>
+        </div>
+}
+    </div>
+    </div>
+
+<script>
+    function showMore(postId)
+    {
+        $.ajax({
+            "url": "/Post/GetPost?postId=" + postId,
+            "dataType": "json",
+            success: function (data)
+            {
+                $(`#list-post-${postId}`).val(data.Content);
+            }
+        })
+    }
+</script>

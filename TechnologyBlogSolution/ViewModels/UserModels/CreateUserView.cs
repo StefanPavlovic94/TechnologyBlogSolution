@@ -5,9 +5,8 @@ using System.Web;
 
 namespace TechnologyBlogSolution.ViewModels.UserModels
 {
-    public class DetailsUserView
+    public class CreateUserView
     {
-        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Company { get; set; }

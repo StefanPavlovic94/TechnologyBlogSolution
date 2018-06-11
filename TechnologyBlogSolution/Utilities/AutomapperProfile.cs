@@ -6,9 +6,9 @@ using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.DTO.User;
 using TechnologyBlogSolution.ViewModels.CommentModels;
-using TechnologyBlogSolution.ViewModels.DtoViewModels;
 using TechnologyBlogSolution.ViewModels.PostModels;
 using TechnologyBlogSolution.ViewModels.SubjectModels;
+using TechnologyBlogSolution.ViewModels.UserModels;
 
 namespace TechnologyBlogSolution.Models
 {
@@ -17,11 +17,40 @@ namespace TechnologyBlogSolution.Models
         private const string HtmlDetailsDateFormat = "dd-MM-yyyy";
         public AutomapperProfile()
         {
-            CreateMap<CreateSubjectView, Subject>()
-                .ForMember(subj => subj.Id, opt => opt.Ignore())
-                .ForMember(subj => subj.IsDeleted, opt => opt.Ignore());
+            #region SubjectMaps
 
-            CreateMap<Subject, DetailsSubjectView>();
+            CreateMap<CreateSubjectDto, Subject>();
+
+            CreateMap<CreateSubjectView, CreateSubjectDto>();
+
+            CreateMap<Subject, DetailsSubjectDto>();
+
+            CreateMap<Subject, ListSubjectDto>();
+
+            CreateMap<DetailsSubjectDto, DetailsSubjectView>();
+
+            CreateMap<SimpleSubjectDto, SimpleSubjectView>()
+                .ForMember(s => s.Id, opt => opt
+                    .MapFrom(src => src.Id))
+                .ForMember(s => s.Name, opt => opt
+                    .MapFrom(s => s.Name));
+
+            CreateMap<SimpleSubjectView, SimpleSubjectDto>();
+
+            CreateMap<EditSubjectView, CreateSubjectDto>();
+
+            CreateMap<EditSubjectDto, Subject>();
+
+            CreateMap<EditSubjectView, EditSubjectDto>();
+            
+            CreateMap<ListSubjectDto, ListSubjectView>();
+            #endregion
+
+            #region PostMaps
+
+            CreateMap<CreatePostView, CreatePostDto>();
+
+            CreateMap<CreatePostDto, Post>();
 
             CreateMap<Post, DetailsPostView>()
                 .ForPath(post => post.Author.Name,
@@ -31,43 +60,51 @@ namespace TechnologyBlogSolution.Models
                 .ForPath(post => post.Timestamp,
                     obj => obj.MapFrom(p => p.Timestamp.ToString(AutomapperProfile.HtmlDetailsDateFormat)));
 
-            CreateMap<FullSubjectDetailsModel, Subject>();
-
-            CreateMap<CreatePostView, CreatePostDto>();
-
             CreateMap<CreatePostDto, Post>()
                 .ForMember(p => p.Timestamp, opt => opt
                     .UseValue(DateTime.Now));
 
-            CreateMap<SimpleSubjectDto, SimpleSubjectDtoView>()
-                .ForMember(s => s.Id, opt => opt
-                    .MapFrom(src => src.Id))
-                .ForMember(s => s.Name, opt => opt
-                    .MapFrom(s => s.Name));
-
-            CreateMap<SimpleSubjectDtoView, SimpleSubjectDto>();
-
-            CreateMap<CreateSubjectView, CreateSubjectDto>();
-
-            CreateMap<CreateSubjectDto, Subject>();
 
             CreateMap<EditPostView, EditPostDto>();
 
             CreateMap<EditPostDto, Post>();
 
-            CreateMap<Post, EditPostView>();
-
             CreateMap<Post, DetailsPostDto>();
+
+            CreateMap<Post, ListPostDto>()
+                .ForPath(p => p.Author.FullName, opt => opt
+                    .MapFrom(src => src.Author.UserName));
+
+            CreateMap<ListPostDto, ListPostView>()
+                .ForPath(p => p.Author.Name, opt => opt
+                    .MapFrom(src => src.Author.FullName));
+
+            CreateMap<DetailsPostDto, EditPostView>();
+
+            CreateMap<DetailsPostDto, DetailsPostView>()
+                .ForMember(p => p.Timestamp, opt => opt
+                    .MapFrom(src => src.Timestamp
+                    .ToString(AutomapperProfile.HtmlDetailsDateFormat)));
+            #endregion
+
+            #region UsersMaps
 
             CreateMap<ApplicationUser, DetailsUserDto>()
                 .ForPath(u => u.FullName, opt => opt
                     .MapFrom(src => src.UserName));
+
+            CreateMap<DetailsUserDto, SimpleUserView>()
+                .ForMember(u => u.Name, opt => opt
+                    .MapFrom(src => src.FullName));
+            #endregion
 
             CreateMap<AddCommentView, CreateCommentDto>()
                 .ForMember(c => c.PostId, opt => opt
                     .MapFrom(src => src.Id));
 
             CreateMap<CreateCommentDto, Comment>();
+
+            CreateMap<ListCommentDto, DetailsCommentView>();
         }
     }
 }

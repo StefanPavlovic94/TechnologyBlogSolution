@@ -42,7 +42,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
                 string authorName = System.Web.HttpContext.Current.User.Identity.Name;
 
-                ApplicationUser user = this.DbContext.Users.FirstOrDefault(u => u.UserName == authorName);
+                ApplicationUser user = this.DbContext.Users
+                    .FirstOrDefault(u => u.UserName == authorName);
 
                 post.Timestamp = DateTime.Now;
                 post.Author = user;
@@ -68,7 +69,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
             ResponseMetadata response = new ResponseMetadata();
             try
             {
-                Post post = this.DbContext.Posts.FirstOrDefault(p => p.Id == id);
+                Post post = this.DbContext.Posts
+                    .FirstOrDefault(p => p.Id == id);
                 post.IsDeleted = true;
             }
             catch (Exception ex)
@@ -82,9 +84,39 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
         public void EditPost(Post post)
         {
-            Post existingPost = this.DbContext.Posts.FirstOrDefault(p => p.Id == post.Id);
+            Post existingPost = this.DbContext.Posts
+                .FirstOrDefault(p => p.Id == post.Id);
             existingPost.Name = post.Name;
             existingPost.Content = post.Content;
+        }
+
+        public IEnumerable<Post> GetNewestPosts(int numberOfPosts)
+        {
+            var postsQuery = this.DbContext.Posts
+                 .Where(p => p.IsDeleted == false)
+                 .OrderByDescending(p => p.Timestamp)
+                 .Take(numberOfPosts);
+
+            var anonimousPosts = postsQuery.Select(p => new
+            {
+                p.Id,
+                p.Author,
+                Content = p.Content.Substring(0,150),
+                p.Name,
+                p.Timestamp
+            }).ToList();
+
+            IEnumerable<Post> posts = anonimousPosts
+                .Select(p => new Post()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Author = p.Author,
+                    Content = p.Content,
+                    Timestamp = p.Timestamp
+                });
+
+            return posts;
         }
 
         public Post GetPost(int id)
