@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -15,5 +16,9 @@ namespace TechnologyBlogSolution.Models.BlogModels
         public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
+        public virtual Subject Subject {get; set;}
+
+        [ForeignKey(nameof(Subject))]
+        public int Subject_Id { get; set; }
     }
 }

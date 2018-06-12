@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Post;
+using TechnologyBlogSolution.Models.DTO.Subject;
+using TechnologyBlogSolution.Models.DTO.User;
 using TechnologyBlogSolution.Repository.Contracts;
 
 namespace TechnologyBlogSolution.Repository.Implementations
@@ -90,33 +93,75 @@ namespace TechnologyBlogSolution.Repository.Implementations
             existingPost.Content = post.Content;
         }
 
-        public IEnumerable<Post> GetNewestPosts(int numberOfPosts)
+        public IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts)
         {
-            var postsQuery = this.DbContext.Posts
+            var posts = this.DbContext.Posts
                  .Where(p => p.IsDeleted == false)
+                 .Take(numberOfPosts)
                  .OrderByDescending(p => p.Timestamp)
-                 .Take(numberOfPosts);
-
-            var anonimousPosts = postsQuery.Select(p => new
-            {
-                p.Id,
-                p.Author,
-                Content = p.Content.Substring(0,150),
-                p.Name,
-                p.Timestamp
-            }).ToList();
-
-            IEnumerable<Post> posts = anonimousPosts
-                .Select(p => new Post()
+                 .Select(p => new ListPostDto()
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Author = p.Author,
-                    Content = p.Content,
+                    Author = new DetailsUserDto()
+                    {
+                    Id = p.Author.Id,
+                    FullName = p.Author.FirstName 
+                    + " " 
+                    + p.Author.LastName
+                    },
+                    Content = p.Content.Substring(0,150),
                     Timestamp = p.Timestamp
-                });
+                }).ToList();
 
             return posts;
+        }
+
+        public PostsPartialDto GetPartialPosts(int subjectId, int pageNumber)
+        {
+            var postsQuery = this.DbContext.Posts
+                .OrderByDescending(p => p.Timestamp)
+                .Where(p => p.Subject_Id == subjectId);
+
+            int numberOfPosts = postsQuery.Count();
+
+            int numberOfPages = numberOfPosts / 10;
+            if (numberOfPosts % 10 != 0)
+            {
+                ++numberOfPages;
+            }
+
+            PostsPartialDto postsPartial = new PostsPartialDto()
+            {
+                NumberOfPages = numberOfPages
+            };
+
+            if (numberOfPages > 1)
+            {
+               postsQuery = postsQuery.Skip(pageNumber * 10)
+                                               .Take(10);
+                postsPartial.CurrentPage = pageNumber;
+            }
+            else
+            {
+                postsQuery = postsQuery.Take(10);
+                postsPartial.CurrentPage = pageNumber / 1;
+            }
+
+            postsPartial.Posts = postsQuery.Select(p => new ListPostDto()
+                                            {
+                                                Id = p.Id,
+                                                Name = p.Name,
+                                                Timestamp = p.Timestamp,
+                                                Content = p.Content.Substring(0,150),
+                                                Author = new DetailsUserDto()
+                                                {
+                                                    Id = p.Author.Id,
+                                                    FullName = p.Author.UserName,
+                                                },
+                                            }).ToList();
+
+            return postsPartial;
         }
 
         public Post GetPost(int id)

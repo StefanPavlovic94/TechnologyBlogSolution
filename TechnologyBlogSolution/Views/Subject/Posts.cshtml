@@ -6,27 +6,30 @@
 <div style="text-align:center"><h3>@Model.Name</h3></div>
 <div>@Model.Description</div>
 <hr />  
-<div class="row">
-    @foreach (var post in Model.Posts)
-    {
-        <div class="col-md-12" style="margin-bottom:3%; padding-left:0px">
-            <div class="card">
-                <div>
-                    <span>
-                        @Html.ActionLink("Edit", "EditPost", "Post", new { post.Id }, new { @class = "btn btn-primary btn-sm" })
-                        @Html.ActionLink("Delete", "DeletePost", "Post", new { post.Id }, new { @class = "btn btn-danger btn-sm" })
-                        @Html.ActionLink("Open", "Open", "Post", new { post.Id }, new { @class = "btn btn-success btn-sm" })
-                    </span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">@post.Name</h5>
-                    <p class="card-text">@post.Content</p>
-                </div>
-                <div class="card-footer text-muted">
-                    <div style="float:left">@post.Timestamp</div>
-                    <div style="float:right">@post.Author.Name</div>
-                </div>
-            </div>
-        </div>
-    }
+<div id="posts-container" class="row">
+
 </div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        getSubjectsPosts(@Model.Id, 0);
+    });
+
+    function getSubjectsPosts(subjectId ,pageNumber)
+    {
+        $.ajax({
+            "url": "/Post/Posts/",
+            "dataType": 'html',
+            "data": { subjectId : subjectId, pageNumber : pageNumber },
+            success: function (postsPartialPage)
+            {
+                $("#posts-container").html(postsPartialPage);
+            }
+        })
+    }
+
+    function getPostsForPage(pageNumber)
+    {
+        getSubjectsPosts(@Model.Id, pageNumber);
+    }
+</script>

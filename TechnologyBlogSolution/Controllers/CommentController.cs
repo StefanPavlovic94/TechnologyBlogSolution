@@ -10,6 +10,7 @@ using TechnologyBlogSolution.ViewModels.CommentModels;
 
 namespace TechnologyBlogSolution.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
         private IPostService postService {get; set;}
@@ -20,7 +21,6 @@ namespace TechnologyBlogSolution.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ActionResult AddComment(AddCommentView commentView)
         {
             CreateCommentDto createComment 

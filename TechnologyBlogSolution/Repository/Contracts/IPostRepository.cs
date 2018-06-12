@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Post;
+using TechnologyBlogSolution.Models.DTO.Subject;
 
 namespace TechnologyBlogSolution.Repository.Contracts
 {
@@ -28,6 +30,8 @@ namespace TechnologyBlogSolution.Repository.Contracts
 
         void AddComment(Comment comment, int postId);
 
-        IEnumerable<Post> GetNewestPosts(int numberOfPosts);
+        IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts);
+
+        PostsPartialDto GetPartialPosts(int subjectId, int pageNumber);
     }
 }

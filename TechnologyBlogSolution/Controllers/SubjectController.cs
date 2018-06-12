@@ -4,11 +4,11 @@ using System.Web.Mvc;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Services.Contracts;
-using TechnologyBlogSolution.ViewModels.PostModels;
 using TechnologyBlogSolution.ViewModels.SubjectModels;
 
 namespace TechnologyBlogSolution.Controllers
 {
+    [Authorize]
     public class SubjectController : Controller
     {
         private ISubjectService subjectService;
@@ -19,7 +19,6 @@ namespace TechnologyBlogSolution.Controllers
         }
   
         [HttpGet]
-        [Authorize]
         public ActionResult Index()
         {
             IEnumerable<ListSubjectDto> subjects = this.subjectService.GetSubjects();
@@ -30,15 +29,11 @@ namespace TechnologyBlogSolution.Controllers
 
       
         [HttpGet]
-        [Authorize]
         public ActionResult Posts(int id)
         {
             DetailsSubjectDto subject = this.subjectService.GetSubject(id);
             DetailsSubjectView fullSubjectDetails =
                 Mapper.Map<DetailsSubjectView>(subject);
-
-            fullSubjectDetails.Posts =
-                Mapper.Map<List<ListPostView>>(subject.Posts);
 
             return View(fullSubjectDetails);
         }

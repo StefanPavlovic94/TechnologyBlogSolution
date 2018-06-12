@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Post;
+using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Services.Contracts;
 using TechnologyBlogSolution.ViewModels.PostModels;
@@ -16,7 +17,7 @@ namespace TechnologyBlogSolution.Controllers
         {
             this.postService = postServ;
         }
-        // GET: Post
+        
         public ActionResult Index()
         {
             return View();
@@ -76,5 +77,17 @@ namespace TechnologyBlogSolution.Controllers
                 = Mapper.Map<DetailsPostView>(detailsPost);
             return Json(detailsPostView, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Posts(int subjectId, int pageNumber)
+        {
+            PostsPartialDto postsDto 
+                = this.postService.GetPartialPosts(subjectId, pageNumber);
+            PostsPartialView postsView
+                = Mapper.Map<PostsPartialView>(postsDto); 
+            return PartialView("PostsPartial", postsView);
+        }
+
     }
 }

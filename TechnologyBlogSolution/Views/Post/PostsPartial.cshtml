@@ -1,0 +1,36 @@
+﻿@model TechnologyBlogSolution.ViewModels.PostModels.PostsPartialView
+<div class="col-md-12" style="margin-bottom:3%; padding-left:0px">
+    @foreach (var post in Model.Posts)
+    {
+    <div class="card" style="margin-bottom:5%">
+        <div>
+            <span>
+                @Html.ActionLink("Edit", "EditPost", "Post", new { post.Id }, new { @class = "btn btn-primary btn-sm" })
+                @Html.ActionLink("Delete", "DeletePost", "Post", new { post.Id }, new { @class = "btn btn-danger btn-sm" })
+                @Html.ActionLink("Open", "Open", "Post", new { post.Id }, new { @class = "btn btn-success btn-sm" })
+            </span>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@post.Name</h5>
+            <p class="card-text">@post.Content</p>
+        </div>
+        <div class="card-footer text-muted">
+            <div style="float:left">@post.Timestamp</div>
+            <div style="float:right">@post.Author.Name</div>
+        </div>
+    </div>
+    }
+    <span>
+        @for (int i = 0; i < Model.NumberOfPages; i++)
+    {
+        if (Model.CurrentPage == i)
+        {
+            <input type="button" class="btn btn-success btn-sm" value="@i" onclick="getPostsForPage(@i)" />
+    }
+    else
+    {
+        <input type="button" class="btn btn-primary btn-sm" value="@i" onclick="getPostsForPage(@i)" />
+}
+}
+    </span>
+</div>

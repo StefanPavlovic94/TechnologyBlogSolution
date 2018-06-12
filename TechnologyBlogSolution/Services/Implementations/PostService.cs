@@ -6,6 +6,7 @@ using System.Linq;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
+using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Repository.Contracts;
 using TechnologyBlogSolution.Services.Contracts;
 
@@ -61,10 +62,13 @@ namespace TechnologyBlogSolution.Services.Implementations
 
         public IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts)
         {
-            IEnumerable<Post> posts = this.postRepository
+            return this.postRepository
                 .GetNewestPosts(numberOfPosts);
+        }
 
-            return Mapper.Map<IEnumerable<ListPostDto>>(posts);
+        public PostsPartialDto GetPartialPosts(int subjectId, int pageNumber)
+        {
+           return this.postRepository.GetPartialPosts(subjectId, pageNumber);
         }
     }
 }

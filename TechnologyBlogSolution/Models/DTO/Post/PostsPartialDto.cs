@@ -6,10 +6,11 @@ using TechnologyBlogSolution.Models.DTO.Post;
 
 namespace TechnologyBlogSolution.Models.DTO.Subject
 {
-    public class DetailsSubjectDto
+    public class PostsPartialDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public List<ListPostDto> Posts { get; set; }
+        public int NumberOfPages { get; set; }
+        public int CurrentPage { get; set; }
+
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
+using TechnologyBlogSolution.Models.DTO.Subject;
 
 namespace TechnologyBlogSolution.Services.Contracts
 {
@@ -18,5 +19,13 @@ namespace TechnologyBlogSolution.Services.Contracts
         void AddComment(CreateCommentDto commentDto);
 
         IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts);
+
+        /// <summary>
+        /// Get subjects posts
+        /// </summary>
+        /// <param name="subjectId"></param>
+        /// <param name="pageNumber">Method will get posts only for that page</param>
+        /// <returns></returns>
+        PostsPartialDto GetPartialPosts(int subjectId, int pageNumber);
     }
 }
