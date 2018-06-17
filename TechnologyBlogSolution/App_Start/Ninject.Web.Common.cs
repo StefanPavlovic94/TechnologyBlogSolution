@@ -11,6 +11,7 @@ namespace TechnologyBlogSolution.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using Ninject.Web.Common.WebHost;
+    using TechnologyBlogSolution.Models.BlogModels;
     using TechnologyBlogSolution.Repository.Contracts;
     using TechnologyBlogSolution.Repository.Implementations;
     using TechnologyBlogSolution.Services.Contracts;
@@ -54,6 +55,8 @@ namespace TechnologyBlogSolution.App_Start
                 kernel.Bind<IPostService>().To<PostService>();
                 kernel.Bind<ISubjectRepository>().To<SubjectRepository>();
                 kernel.Bind<IPostRepository>().To<PostRepository>();
+                kernel.Bind(typeof(IRepository<Subject>)).To(typeof(Repository<Subject>));
+
                 RegisterServices(kernel);
                 return kernel;
             }

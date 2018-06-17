@@ -12,7 +12,7 @@ namespace TechnologyBlogSolution.Services.Contracts
 {
     public interface IPostService
     {
-        DetailsPostDto GetPost(int id);
+        PostDto GetPost(int id);
         void CreatePost(CreatePostDto createPost);
         void DeletePost(int id);
         void EditPost(EditPostDto post);

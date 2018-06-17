@@ -17,21 +17,18 @@ namespace TechnologyBlogSolution.Controllers
         {
             this.subjectService = subjectServiceDependency;
         }
-  
+
         [HttpGet]
         public ActionResult Index()
         {
-            IEnumerable<ListSubjectDto> subjects = this.subjectService.GetSubjects();
-            IEnumerable<ListSubjectView> subjectDetailsViews 
-                = Mapper.Map<IEnumerable<ListSubjectView>>(subjects);
-            return View(subjectDetailsViews);
+            return View();
         }
 
-      
+
         [HttpGet]
         public ActionResult Posts(int id)
         {
-            DetailsSubjectDto subject = this.subjectService.GetSubject(id);
+            SubjectDto subject = this.subjectService.GetSubject(id);
             DetailsSubjectView fullSubjectDetails =
                 Mapper.Map<DetailsSubjectView>(subject);
 
@@ -48,5 +45,45 @@ namespace TechnologyBlogSolution.Controllers
             this.subjectService.CreateSubject(subjectDto);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult Edit(int id)
+        {
+            SubjectDto subjectDto = this.subjectService.GetSubject(id);
+            EditSubjectView editSubjectView
+                = Mapper.Map<EditSubjectView>(subjectDto);
+            return View(editSubjectView);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult Edit(EditSubjectView editSubject)
+        {
+            EditSubjectDto editSubjectDto
+                = Mapper.Map<EditSubjectDto>(editSubject);
+            this.subjectService.EditSubject(editSubjectDto);
+            return RedirectToAction("Index", "Subject", null);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult Delete(int id)
+        {
+            this.subjectService.DeleteSubject(id);
+            return View("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Role.Admin)]
+        public ActionResult SubjectsPartialPage(int pageNumber)
+        {
+            SubjectsPartialDto subjectPartial 
+                = this.subjectService.GetPartialSubjects(pageNumber);
+            SubjectsPartialView subjectsPartialView
+                = Mapper.Map<SubjectsPartialView>(subjectPartial);
+            return PartialView("SubjectsPartial", subjectsPartialView);
+        }
     }
+
 }

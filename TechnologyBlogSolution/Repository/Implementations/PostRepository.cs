@@ -35,11 +35,9 @@ namespace TechnologyBlogSolution.Repository.Implementations
         /// <param name="post"></param>
         /// <param name="subjectId"></param>
         /// <returns></returns>
-        public ResponseMetadata CreatePost(Post post, int subjectId)
+        public void CreatePost(Post post, int subjectId)
         {
-            ResponseMetadata response = new ResponseMetadata();
-            try
-            {
+          
                 Subject subject = this.DbContext.Subjects
                     .FirstOrDefault(subj => subj.Id == subjectId);
 
@@ -51,15 +49,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 post.Timestamp = DateTime.Now;
                 post.Author = user;
                 subject.Posts.Add(post);
-                this.DbContext.Entry(post).State = EntityState.Added;
-            }
-            catch (Exception ex)
-            {
-                response.ErrorMessage = ex.Message;
-                return response;
-            }
-            response.ErrorMessage = null;
-            return response;
+                this.DbContext.Entry(post).State = EntityState.Added;    
         }
 
         /// <summary>
@@ -67,22 +57,12 @@ namespace TechnologyBlogSolution.Repository.Implementations
         /// </summary>
         /// <param name="id">Post id</param>
         /// <returns></returns>
-        public ResponseMetadata DeletePost(int id)
+        public void DeletePost(int id)
         {
-            ResponseMetadata response = new ResponseMetadata();
-            try
-            {
+            
                 Post post = this.DbContext.Posts
                     .FirstOrDefault(p => p.Id == id);
-                post.IsDeleted = true;
-            }
-            catch (Exception ex)
-            {
-                response.ErrorMessage = ex.Message;
-                return response;
-            }
-            response.ErrorMessage = null;
-            return response;
+                post.IsDeleted = true; 
         }
 
         public void EditPost(Post post)
@@ -121,7 +101,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
             var postsQuery = this.DbContext.Posts
                 .OrderByDescending(p => p.Timestamp)
-                .Where(p => p.Subject_Id == subjectId);
+                .Where(p => p.Subject_Id == subjectId)
+                .Where(p => p.IsDeleted == false);
 
             int numberOfPosts = postsQuery.Count();
 

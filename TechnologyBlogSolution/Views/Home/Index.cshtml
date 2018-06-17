@@ -22,7 +22,6 @@
                 <div style="float:left; margin-right:3%">@post.Author.Name</div>
                 <div style="float:left">  @post.Timestamp</div>
                 <div style="float:right">
-                    @*<input type="button" value="Show more" class="btn btn-primary btn-sm" onclick="showMore(@post.Id)" />*@
                     @Html.ActionLink("Open", "Open", "Post", new { id = post.Id}, new { @class="btn btn-success"})
                 </div>
             </div>

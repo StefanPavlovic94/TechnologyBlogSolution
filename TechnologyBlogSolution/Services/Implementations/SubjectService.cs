@@ -17,16 +17,17 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.subjectRepository = subjectRepo;
         }
 
-        public DetailsSubjectDto GetSubject(int id)
+        public SubjectDto GetSubject(int id)
         {
             Subject subject = this.subjectRepository.GetSubject(id);
-            return Mapper.Map<DetailsSubjectDto>(subject);
+            return Mapper.Map<SubjectDto>(subject);
         }
 
 
         public void CreateSubject(CreateSubjectDto subjectDto)
         {
             Subject subject = Mapper.Map<Subject>(subjectDto);
+            subject.Timestamp = DateTime.Now;
             this.subjectRepository.Add(subject);
             this.subjectRepository.Commit();
         }
@@ -40,10 +41,11 @@ namespace TechnologyBlogSolution.Services.Implementations
 
         public void EditSubject(EditSubjectDto updatedSubject)
         {
-            Subject subject = Mapper.Map<Subject>(updatedSubject);
+            Subject subject = this.subjectRepository.GetSubject(updatedSubject.Id);
+            subject.Name = updatedSubject.Name;
+            subject.Description = updatedSubject.Description;
             this.subjectRepository.Update(subject);
             this.subjectRepository.Commit();
-
         }
 
         public IEnumerable<ListSubjectDto> GetSubjects()
@@ -55,6 +57,11 @@ namespace TechnologyBlogSolution.Services.Implementations
         public IEnumerable<SimpleSubjectDto> GetSimpleSubjects()
         {
             return this.subjectRepository.GetSimpleSubjects();
+        }
+
+        public SubjectsPartialDto GetPartialSubjects(int pageNumber)
+        {
+           return this.subjectRepository.GetPartialSubjects(pageNumber);
         }
     }
 }

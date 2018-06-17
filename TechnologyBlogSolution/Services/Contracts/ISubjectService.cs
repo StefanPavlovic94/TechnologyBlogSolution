@@ -7,12 +7,13 @@ namespace TechnologyBlogSolution.Services.Contracts
     public interface ISubjectService
     {
         IEnumerable<ListSubjectDto> GetSubjects();
-        DetailsSubjectDto GetSubject(int id);
+        SubjectDto GetSubject(int id);
 
         void CreateSubject(CreateSubjectDto subject);
         void DeleteSubject(int id);
         void EditSubject(EditSubjectDto subject);
 
         IEnumerable<SimpleSubjectDto> GetSimpleSubjects();
+        SubjectsPartialDto GetPartialSubjects(int pageNumber);
     }
 }

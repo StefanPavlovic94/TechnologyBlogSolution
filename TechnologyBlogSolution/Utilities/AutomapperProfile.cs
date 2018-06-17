@@ -23,11 +23,11 @@ namespace TechnologyBlogSolution.Models
 
             CreateMap<CreateSubjectView, CreateSubjectDto>();
 
-            CreateMap<Subject, DetailsSubjectDto>();
+            CreateMap<Subject, SubjectDto>();
 
             CreateMap<Subject, ListSubjectDto>();
 
-            CreateMap<DetailsSubjectDto, DetailsSubjectView>();
+            CreateMap<SubjectDto, DetailsSubjectView>();
 
             CreateMap<SimpleSubjectDto, SimpleSubjectView>()
                 .ForMember(s => s.Id, opt => opt
@@ -69,7 +69,7 @@ namespace TechnologyBlogSolution.Models
 
             CreateMap<EditPostDto, Post>();
 
-            CreateMap<Post, DetailsPostDto>();
+            CreateMap<Post, PostDto>();
 
             CreateMap<Post, ListPostDto>()
                 .ForPath(p => p.Author.FullName, opt => opt
@@ -79,9 +79,9 @@ namespace TechnologyBlogSolution.Models
                 .ForPath(p => p.Author.Name, opt => opt
                     .MapFrom(src => src.Author.FullName));
 
-            CreateMap<DetailsPostDto, EditPostView>();
+            CreateMap<PostDto, EditPostView>();
 
-            CreateMap<DetailsPostDto, DetailsPostView>()
+            CreateMap<PostDto, DetailsPostView>()
                 .ForMember(p => p.Timestamp, opt => opt
                     .MapFrom(src => src.Timestamp
                     .ToString(AutomapperProfile.HtmlDetailsDateFormat)));
@@ -105,6 +105,8 @@ namespace TechnologyBlogSolution.Models
             CreateMap<CreateCommentDto, Comment>();
 
             CreateMap<ListCommentDto, DetailsCommentView>();
+
+            CreateMap<SubjectsPartialDto, SubjectsPartialView>();
         }
     }
 }

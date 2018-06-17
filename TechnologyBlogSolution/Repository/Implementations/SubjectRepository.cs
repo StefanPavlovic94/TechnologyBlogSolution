@@ -1,9 +1,8 @@
 ﻿using TechnologyBlogSolution.Models.BlogModels;
-using TechnologyBlogSolution.Repository.Contracts;
 using System.Linq;
-using System.Data.Entity;
 using System.Collections.Generic;
 using TechnologyBlogSolution.Models.DTO.Subject;
+using TechnologyBlogSolution.Repository.Contracts;
 using AutoMapper;
 
 namespace TechnologyBlogSolution.Repository.Implementations
@@ -24,7 +23,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
         public IEnumerable<Subject> GetSubjects()
         {
             return this.DbContext.Subjects
-                .Where(s => s.IsDeleted == false).ToList();
+                .Where(s => s.IsDeleted == false)
+                .ToList();
         } 
 
         public void DeleteSubject(int id)
@@ -37,11 +37,55 @@ namespace TechnologyBlogSolution.Repository.Implementations
         public IEnumerable<SimpleSubjectDto> GetSimpleSubjects()
         {
             return this.DbContext.Subjects
+                .Where(s => s.IsDeleted == false)
                 .Select(subj => new SimpleSubjectDto()
             {
                 Id = subj.Id,
                 Name = subj.Name
             }).ToList();
+        }
+
+        public SubjectsPartialDto GetPartialSubjects(int pageNumber)
+        {
+
+            var query = this.DbContext.Subjects
+                .Where(s => s.IsDeleted == false)
+                .OrderByDescending(sub => sub.Timestamp)
+                .AsQueryable();
+
+            SubjectsPartialDto subjectsPartial
+                = new SubjectsPartialDto();
+
+            subjectsPartial.CurrentPage = pageNumber;
+            int numOfSubjects = query.Count();
+
+            if (numOfSubjects <= 10)
+            {
+                subjectsPartial.NumberOfPages = 1;
+            }
+            else
+            {
+                subjectsPartial.NumberOfPages = numOfSubjects / 10;
+                if (numOfSubjects % 10 != 0)
+                {
+                    ++subjectsPartial.NumberOfPages;
+                }
+            }
+
+            if (pageNumber > 0)
+            {
+                query = query.Skip(pageNumber * 10).Take(10);
+            }
+            else
+            {
+                query.Take(10);
+            }
+
+            var subjects = query.ToList();
+            var listSubjects = Mapper.Map<List<ListSubjectDto>>(subjects);
+            subjectsPartial.Subjects =listSubjects;
+
+            return subjectsPartial;
         }
     }
 }

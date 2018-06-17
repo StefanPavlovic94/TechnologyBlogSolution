@@ -15,6 +15,9 @@ namespace TechnologyBlogSolution.Models.BlogModels
         public bool IsDeleted { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
+        public int NumberOfUpvotes { get; set; }
+        public int NumberOfDownvotes { get; set; }
+
         public virtual ApplicationUser Author { get; set; }
         public virtual Subject Subject {get; set;}
 

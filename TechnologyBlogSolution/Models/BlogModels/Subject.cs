@@ -12,5 +12,6 @@ namespace TechnologyBlogSolution.Models.BlogModels
         public string Description { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TechnologyBlogSolution.Models.DTO.Post;
 
-namespace TechnologyBlogSolution.Models.DTO.Subject
+namespace TechnologyBlogSolution.ViewModels.SubjectModels
 {
-    public class PostsPartialDto
+    public class SubjectsPartialView
     {
-        public List<ListPostDto> Posts { get; set; }
+        public List<ListSubjectView> Subjects { get; set; }
         public int NumberOfPages { get; set; }
         public int CurrentPage { get; set; }
     }

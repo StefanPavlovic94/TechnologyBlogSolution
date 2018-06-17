@@ -252,6 +252,18 @@
     <Compile Include="Migrations\201806121932452_AddedRelationFromPostToParentSubject.Designer.cs">
       <DependentUpon>201806121932452_AddedRelationFromPostToParentSubject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806142138489_AddedSubjectTimestamp.cs" />
+    <Compile Include="Migrations\201806142138489_AddedSubjectTimestamp.Designer.cs">
+      <DependentUpon>201806142138489_AddedSubjectTimestamp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806171952505_AddedUpvotesDownvotes.cs" />
+    <Compile Include="Migrations\201806171952505_AddedUpvotesDownvotes.Designer.cs">
+      <DependentUpon>201806171952505_AddedUpvotesDownvotes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806172003534_AddedNumOfVotes.cs" />
+    <Compile Include="Migrations\201806172003534_AddedNumOfVotes.Designer.cs">
+      <DependentUpon>201806172003534_AddedNumOfVotes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DTO\Comment\ListCommentDto.cs" />
     <Compile Include="Models\DTO\Comment\CreateCommentDto.cs" />
@@ -264,6 +276,7 @@
     <Compile Include="Models\DTO\Subject\EditSubjectDto.cs" />
     <Compile Include="Models\DTO\Subject\ListSubjectDto.cs" />
     <Compile Include="Models\DTO\Post\PostsPartialDto.cs" />
+    <Compile Include="Models\DTO\Subject\SubjectsPartialDto.cs" />
     <Compile Include="Models\DTO\User\CreateUserDto.cs" />
     <Compile Include="Models\DTO\User\DetailsUserDto.cs" />
     <Compile Include="Models\DTO\User\EditUserDto.cs" />
@@ -278,7 +291,6 @@
     <Compile Include="Models\BlogModels\Subject.cs" />
     <Compile Include="Models\DTO\Subject\SimpleSubjectDto.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ResponseMetadata.cs" />
     <Compile Include="Models\Users\Admin.cs" />
     <Compile Include="Models\Users\Role.cs" />
     <Compile Include="Models\Users\User.cs" />
@@ -307,6 +319,7 @@
     <Compile Include="ViewModels\PostModels\EditPostView.cs" />
     <Compile Include="ViewModels\SubjectModels\CreateSubjectView.cs" />
     <Compile Include="ViewModels\SubjectModels\DetailsSubjectView.cs" />
+    <Compile Include="ViewModels\SubjectModels\SubjectsPartialView.cs" />
     <Compile Include="ViewModels\UserModels\CreateUserView.cs" />
     <Compile Include="ViewModels\UserModels\DetailsUserView.cs" />
     <Compile Include="ViewModels\UserModels\EditUserView.cs" />
@@ -418,6 +431,8 @@
     <Content Include="Views\Post\EditPost.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Post\PostsPartial.cshtml" />
+    <Content Include="Views\Subject\SubjectsPartial.cshtml" />
+    <Content Include="Views\Subject\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -443,6 +458,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806121932452_AddedRelationFromPostToParentSubject.resx">
       <DependentUpon>201806121932452_AddedRelationFromPostToParentSubject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806142138489_AddedSubjectTimestamp.resx">
+      <DependentUpon>201806142138489_AddedSubjectTimestamp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806171952505_AddedUpvotesDownvotes.resx">
+      <DependentUpon>201806171952505_AddedUpvotesDownvotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806172003534_AddedNumOfVotes.resx">
+      <DependentUpon>201806172003534_AddedNumOfVotes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

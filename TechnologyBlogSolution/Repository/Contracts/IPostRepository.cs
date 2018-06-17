@@ -16,13 +16,13 @@ namespace TechnologyBlogSolution.Repository.Contracts
         /// Create post for subject
         /// </summary>
         /// <returns></returns>
-        ResponseMetadata CreatePost(Post post, int subjectId);
+        void CreatePost(Post post, int subjectId);
 
         /// <summary>
         /// Soft delete post
         /// </summary>
         /// <returns></returns>
-        ResponseMetadata DeletePost(int postId);
+        void DeletePost(int postId);
 
         void EditPost(Post post);
 

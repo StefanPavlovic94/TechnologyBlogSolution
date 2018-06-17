@@ -7,7 +7,8 @@ using TechnologyBlogSolution.Repository.Contracts;
 
 namespace TechnologyBlogSolution.Repository.Implementations
 {
-    public class Repository<TEntity> : IRepository<TEntity>
+    public class Repository<TEntity> 
+        : IRepository<TEntity>
         where TEntity : class
     {
         public TechnologyBlogDbContext DbContext;
@@ -17,7 +18,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
             this.DbContext = technologyBlogDbContext;
         }
 
-        private DbSet<TEntity> EntitiesDbSet { get; set; }
+        private DbSet<TEntity> EntitiesDbSet => this.DbContext.Set<TEntity>();
 
         public void Add(TEntity entity)
         {
@@ -36,7 +37,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
         public void Update(TEntity entity)
         {
-            this.Update(entity);
+            this.DbContext.Entry(entity).State = EntityState.Modified;
         }
 
         public void Commit()

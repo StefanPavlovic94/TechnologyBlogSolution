@@ -8,7 +8,7 @@ using TechnologyBlogSolution.Models.DTO.User;
 
 namespace TechnologyBlogSolution.Models.DTO.Post
 {
-    public class DetailsPostDto
+    public class PostDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

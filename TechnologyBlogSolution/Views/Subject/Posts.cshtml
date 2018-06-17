@@ -18,7 +18,7 @@
     function getSubjectsPosts(subjectId ,pageNumber)
     {
         $.ajax({
-            "url": "/Post/Posts/",
+            "url": "/Post/PostsPartialPage/",
             "dataType": 'html',
             "data": { subjectId : subjectId, pageNumber : pageNumber },
             success: function (postsPartialPage)

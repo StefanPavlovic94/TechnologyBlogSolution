@@ -10,5 +10,6 @@ namespace TechnologyBlogSolution.Repository.Contracts
         IEnumerable<Subject> GetSubjects();
         void DeleteSubject(int id);
         IEnumerable<SimpleSubjectDto> GetSimpleSubjects();
+        SubjectsPartialDto GetPartialSubjects(int pageNumber);
     }
 }

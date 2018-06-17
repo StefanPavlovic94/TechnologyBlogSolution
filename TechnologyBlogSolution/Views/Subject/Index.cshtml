@@ -3,26 +3,28 @@
     ViewBag.Title = "Index";
 }
 
-<div style="text-align:center; margin-top:3%">
-    <h2>Subjects</h2>
-</div>
-<hr />
 
-<div class="row"> 
-            @{
-        foreach (var item in Model)
-        {
-            <div class="col-md-4" style="margin-bottom:3%">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">@item.Description</p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <a href="~/Subject/Posts/@item.Id" class="btn btn-primary btn-sm">Open</a>
-                    </div>
-                </div>
-            </div>
-}
+<div id="subjects-container" style="margin-top:5%" class="row"> 
+   
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        getSubjectsForPage(0);
+    });
+
+    function getSubjectsForPage(pageNumber)
+    {
+        $.ajax({
+            "url" : "/Subject/SubjectsPartialPage",
+            "dataType": "html",
+            "data": { pageNumber : pageNumber },
+            success: function (pageHtml)
+            {
+                $("#subjects-container").html(pageHtml);
             }
-        </div>
+        })
+    }
+</script>

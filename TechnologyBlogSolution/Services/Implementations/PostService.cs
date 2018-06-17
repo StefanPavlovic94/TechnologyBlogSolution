@@ -21,11 +21,11 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.postRepository = postRepo;
         }
 
-        public DetailsPostDto GetPost(int id)
+        public PostDto GetPost(int id)
         {
             Post post = this.postRepository.GetPost(id);
-            DetailsPostDto detailsPost 
-                = Mapper.Map<DetailsPostDto>(post);
+            PostDto detailsPost 
+                = Mapper.Map<PostDto>(post);
             detailsPost.Comments = detailsPost.Comments
                 .OrderByDescending(p => p.Timestamp).ToList();
             return detailsPost;

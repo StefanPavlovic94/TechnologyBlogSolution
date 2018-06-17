@@ -12,6 +12,9 @@ namespace TechnologyBlogSolution.Models.BlogModels
         public DateTime Timestamp { get; set; }
         public bool IsDeleted { get; set; }
 
+        public int NumberofUpvotes { get; set; }
+        public int NumberOfDownvotes { get; set; }
+
         public virtual ApplicationUser Author { get; set; }
     }
 }
