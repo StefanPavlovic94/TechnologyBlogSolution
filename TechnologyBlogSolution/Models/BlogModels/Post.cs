@@ -15,11 +15,14 @@ namespace TechnologyBlogSolution.Models.BlogModels
         public bool IsDeleted { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
-        public int NumberOfUpvotes { get; set; }
-        public int NumberOfDownvotes { get; set; }
+        public ICollection<Vote> Upvotes { get; set; }
+        public ICollection<Vote> Downvotes { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
         public virtual Subject Subject {get; set;}
+
+        [ForeignKey(nameof(Author))]
+        public string Author_Id { get; set; }
 
         [ForeignKey(nameof(Subject))]
         public int Subject_Id { get; set; }

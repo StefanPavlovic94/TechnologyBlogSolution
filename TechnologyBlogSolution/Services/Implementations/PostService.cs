@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
@@ -40,6 +41,7 @@ namespace TechnologyBlogSolution.Services.Implementations
         public void CreatePost(CreatePostDto createPost)
         {
             Post post = Mapper.Map<Post>(createPost);
+            post.Author_Id = HttpContext.Current.User.Identity.GetUserId();
             this.postRepository.CreatePost(post, createPost.SubjectId);
             this.postRepository.Commit();
         }
@@ -56,6 +58,7 @@ namespace TechnologyBlogSolution.Services.Implementations
             Comment comment = Mapper.Map<Comment>(commentDto);
             comment.Timestamp = DateTime.Now;
             comment.IsDeleted = false;
+            comment.Author_Id = HttpContext.Current.User.Identity.GetUserId();
             this.postRepository.AddComment(comment, commentDto.PostId);
             this.postRepository.Commit();
         }
@@ -69,6 +72,30 @@ namespace TechnologyBlogSolution.Services.Implementations
         public PostsPartialDto GetPartialPosts(int subjectId, int pageNumber)
         {
            return this.postRepository.GetPartialPosts(subjectId, pageNumber);
+        }
+
+        public void Upvote(int postId)
+        {
+            Vote vote = new Vote()
+            {
+                User_Id = HttpContext.Current.User.Identity.GetUserId(),
+                Timestamp = DateTime.Now
+            };
+
+            this.postRepository.Upvote(vote, postId);
+            this.postRepository.Commit();
+        }
+
+        public void Downvote(int postId)
+        {
+            Vote vote = new Vote()
+            {
+                User_Id = HttpContext.Current.User.Identity.GetUserId(),
+                Timestamp = DateTime.Now
+            };
+
+            this.postRepository.Downvote(vote, postId);
+            this.postRepository.Commit();
         }
     }
 }

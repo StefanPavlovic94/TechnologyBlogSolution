@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO;
 using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.DTO.User;
@@ -23,9 +24,6 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
             Post post = this.DbContext.Posts.Include(p => p.Comments)
                 .FirstOrDefault(p => p.Id == postId);
-
-            string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            comment.Author = this.DbContext.Users.FirstOrDefault(u => u.Id == userId);
             post.Comments.Add(comment);
         }
 
@@ -41,13 +39,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 Subject subject = this.DbContext.Subjects
                     .FirstOrDefault(subj => subj.Id == subjectId);
 
-                string authorName = System.Web.HttpContext.Current.User.Identity.Name;
-
-                ApplicationUser user = this.DbContext.Users
-                    .FirstOrDefault(u => u.UserName == authorName);
-
                 post.Timestamp = DateTime.Now;
-                post.Author = user;
                 subject.Posts.Add(post);
                 this.DbContext.Entry(post).State = EntityState.Added;    
         }
@@ -65,6 +57,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 post.IsDeleted = true; 
         }
 
+
         public void EditPost(Post post)
         {
             Post existingPost = this.DbContext.Posts
@@ -77,8 +70,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
             var posts = this.DbContext.Posts
                  .Where(p => p.IsDeleted == false)
-                 .Take(numberOfPosts)
                  .OrderByDescending(p => p.Timestamp)
+                 .Take(numberOfPosts)
                  .Select(p => new ListPostDto()
                 {
                     Id = p.Id,
@@ -102,7 +95,9 @@ namespace TechnologyBlogSolution.Repository.Implementations
             var postsQuery = this.DbContext.Posts
                 .OrderByDescending(p => p.Timestamp)
                 .Where(p => p.Subject_Id == subjectId)
-                .Where(p => p.IsDeleted == false);
+                .Where(p => p.IsDeleted == false)
+                .Include(p => p.Upvotes)
+                .Include(p => p.Downvotes);
 
             int numberOfPosts = postsQuery.Count();
 
@@ -119,8 +114,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
             if (numberOfPages > 1)
             {
-               postsQuery = postsQuery.Skip(pageNumber * 10)
-                                               .Take(10);
+                postsQuery = postsQuery.Skip(pageNumber * 10)
+                                                .Take(10);
                 postsPartial.CurrentPage = pageNumber;
             }
             else
@@ -129,25 +124,64 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 postsPartial.CurrentPage = pageNumber / 1;
             }
 
+            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+
             postsPartial.Posts = postsQuery.Select(p => new ListPostDto()
-                                            {
-                                                Id = p.Id,
-                                                Name = p.Name,
-                                                Timestamp = p.Timestamp,
-                                                Content = p.Content.Substring(0,150),
-                                                Author = new DetailsUserDto()
-                                                {
-                                                    Id = p.Author.Id,
-                                                    FullName = p.Author.UserName,
-                                                },
-                                            }).ToList();
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Timestamp = p.Timestamp,
+                Content = p.Content.Substring(0, 150),
+                Author = new DetailsUserDto()
+                {
+                    Id = p.Author.Id,
+                    FullName = p.Author.UserName,
+                },
+                NumberOfDownvotes = p.Downvotes.Count,
+                NumberOfUpvotes = p.Upvotes.Count,
+                CurrenUserVote = p.Upvotes.Any(u => u.User_Id == currentUserId) 
+                                                    ? CurrentUserVoted.Upvote : 
+                                   p.Downvotes.Any(u => u.User_Id == currentUserId) 
+                                                    ? CurrentUserVoted.Downvote :
+                                                      CurrentUserVoted.NotVoted
+            }).ToList();
 
             return postsPartial;
         }
 
         public Post GetPost(int id)
         {
-           return this.DbContext.Posts.FirstOrDefault(p => p.Id == id);
+           return this.DbContext.Posts
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        public void Downvote(Vote vote, int postId, string currenUserId)
+        {
+            Post post = this.DbContext.Posts
+                .Include(p => p.Downvotes)
+                .FirstOrDefault(p => p.Id == postId);
+            if(post.Upvotes.Any(p => p.User_Id == currenUserId))
+            {
+                Vote upvote = post.Upvotes.FirstOrDefault(p => p.User_Id == currenUserId);
+                post.Upvotes.Remove(vote);
+            }
+
+            post.Downvotes.Add(vote);
+        }
+
+        public void Upvote(Vote vote, int postId, string currenUserId)
+        {
+            Post post = this.DbContext.Posts
+                .Include(p => p.Upvotes)
+                .FirstOrDefault(p => p.Id == postId);
+
+            if (post.Downvotes.Any(p => p.User_Id == currenUserId))
+            {
+                Vote downvote = post.Downvotes.FirstOrDefault(p => p.User_Id == currenUserId);
+                post.Downvotes.Remove(vote);
+            }
+
+            post.Upvotes.Add(vote);
         }
     }
 }

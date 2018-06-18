@@ -33,5 +33,9 @@ namespace TechnologyBlogSolution.Repository.Contracts
         IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts);
 
         PostsPartialDto GetPartialPosts(int subjectId, int pageNumber);
+
+        void Upvote(Vote vote, int postId, string currenUserId);
+
+        void Downvote(Vote vote, int postId, string currenUserId);
     }
 }

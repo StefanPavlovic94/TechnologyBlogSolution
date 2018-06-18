@@ -16,8 +16,9 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
         public Subject GetSubject(int id)
         { 
-            return this.DbContext.Subjects.Where(s => s.IsDeleted == false)
-                                          .FirstOrDefault(s => s.Id == id);
+            return this.DbContext.Subjects
+                .Where(s => s.IsDeleted == false)
+                .FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Subject> GetSubjects()

@@ -16,7 +16,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
         public ApplicationUser GetUser(string id)
         {
-           return this.DbContext.Users.FirstOrDefault(u => u.Id == id);
+           return this.DbContext.Users
+                .FirstOrDefault(u => u.Id == id);
         }
 
         public IEnumerable<ApplicationUser> GetUsers()

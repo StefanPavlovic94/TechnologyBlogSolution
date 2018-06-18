@@ -17,7 +17,7 @@ namespace TechnologyBlogSolution.Controllers
         {
             this.postService = postServ;
         }
-        
+
         public ActionResult Index()
         {
             return View();
@@ -61,7 +61,7 @@ namespace TechnologyBlogSolution.Controllers
         [HttpGet]
         [Authorize]
         public ActionResult Open(int id)
-        { 
+        {
             PostDto detailsPost = this.postService.GetPost(id);
             DetailsPostView detailsPostView
                 = Mapper.Map<DetailsPostView>(detailsPost);
@@ -82,12 +82,25 @@ namespace TechnologyBlogSolution.Controllers
         [Authorize]
         public ActionResult PostsPartialPage(int subjectId, int pageNumber)
         {
-            PostsPartialDto postsDto 
+            PostsPartialDto postsDto
                 = this.postService.GetPartialPosts(subjectId, pageNumber);
             PostsPartialView postsView
-                = Mapper.Map<PostsPartialView>(postsDto); 
+                = Mapper.Map<PostsPartialView>(postsDto);
             return PartialView("PostsPartial", postsView);
         }
 
+        [HttpPost]
+        [Authorize]
+        public void Upvote(int id)
+        {
+            this.postService.Upvote(id);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public void Downvote(int id)
+        {
+            this.postService.Downvote(id);
+        }
     }
 }

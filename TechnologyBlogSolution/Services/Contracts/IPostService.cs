@@ -27,5 +27,9 @@ namespace TechnologyBlogSolution.Services.Contracts
         /// <param name="pageNumber">Method will get posts only for that page</param>
         /// <returns></returns>
         PostsPartialDto GetPartialPosts(int subjectId, int pageNumber);
+
+        void Upvote(int postId);
+
+        void Downvote(int postId);
     }
 }

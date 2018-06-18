@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using System;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO;
 using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.DTO.User;
+using TechnologyBlogSolution.ViewModels;
 using TechnologyBlogSolution.ViewModels.CommentModels;
 using TechnologyBlogSolution.ViewModels.PostModels;
 using TechnologyBlogSolution.ViewModels.SubjectModels;
@@ -107,6 +109,12 @@ namespace TechnologyBlogSolution.Models
             CreateMap<ListCommentDto, DetailsCommentView>();
 
             CreateMap<SubjectsPartialDto, SubjectsPartialView>();
+
+            CreateMap<PostsPartialDto, PostsPartialView>();
+
+            CreateMap<VoteDto, VoteView>()
+                .ForMember(v => v.Timestamp, opt => opt
+                    .MapFrom(src => src.Timestamp.ToString(AutomapperProfile.HtmlDetailsDateFormat)));
         }
     }
 }
