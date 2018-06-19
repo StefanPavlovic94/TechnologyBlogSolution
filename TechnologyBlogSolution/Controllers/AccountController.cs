@@ -94,16 +94,6 @@ namespace TechnologyBlogSolution.Controllers
                 return View(model);
             }
 
-            //Add this to check if the email was confirmed.
-            if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-            {
-                ModelState.AddModelError("", "You need to confirm your email.");
-                return View(model);
-            }
-            if (await UserManager.IsLockedOutAsync(user.Id))
-            {
-                return View("Lockout");
-            }
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -194,19 +184,7 @@ namespace TechnologyBlogSolution.Controllers
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 this.UserManager.AddToRole(user.Id, Role.User);
-                if (result.Succeeded)
-                {
-                    var provider = new DpapiDataProtectionProvider("TechnologyBlogSolution");
-                    UserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
-                        provider.Create("Email confirmation"));
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
+                return RedirectToAction("Index", "Home");
             }
 
             // If we got this far, something failed, redisplay form

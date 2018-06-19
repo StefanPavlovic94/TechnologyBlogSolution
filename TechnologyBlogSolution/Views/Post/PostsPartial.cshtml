@@ -5,11 +5,27 @@
     {
         <div class="card" style="margin-bottom:5%">
             <div class="card-header">
-                <span>
-                    @Html.ActionLink("Edit", "EditPost", "Post", new { post.Id }, new { @class = "btn btn-primary btn-sm" })
-                    @Html.ActionLink("Delete", "DeletePost", "Post", new { post.Id }, new { @class = "btn btn-danger btn-sm" })
-                    @Html.ActionLink("Open", "Open", "Post", new { post.Id }, new { @class = "btn btn-success btn-sm" })
-                </span>
+                    <span>
+                        @Html.ActionLink("Edit", "EditPost", "Post", new { post.Id }, new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Delete", "DeletePost", "Post", new { post.Id }, new { @class = "btn btn-danger btn-sm" })
+                        @Html.ActionLink("Open", "Open", "Post", new { post.Id }, new { @class = "btn btn-success btn-sm" })
+                    </span>
+                <div id="vote-container-@post.Id">
+                    @switch (post.CurrenUserVote)
+        {
+            case CurrentUserVoted.NotVoted:
+                <input style="float:right; width:3%; height:3%;" type="image" onclick="Downvote(@post.Id)" value="@post.DownvotesCount" src="~/Root/Downvote.png" />
+                <input style="float:right; width:3%;height:3%;" type="image" onclick="Upvote(@post.Id)" value="@post.UpvotesCount" src="~/Root/Upvote.png" />
+    break;
+case CurrentUserVoted.Upvote:
+            <input style="float:right; width:3%;height:3%;" type="image" onclick="Downvote(@post.Id)" value="@post.DownvotesCount" src="~/Root/Downvote.png"/>
+
+break;
+case CurrentUserVoted.Downvote:
+            <input style="float:right; width:3%;height:3%;" type="image" onclick="Upvote(@post.Id)" value="@post.UpvotesCount" src="~/Root/Upvote.png"/>
+break;
+}
+                </div>
             </div>
             <div class="card-body">
                 <h5 class="card-title">@post.Name</h5>
@@ -21,22 +37,7 @@
                         <div style="float:left">@post.Timestamp</div>
                         <div style="float:right">@post.Author.Name</div>
                     </div>
-                    <div class="col-md-6">
-                        @switch (post.CurrenUserVote)
-        {
-            case CurrentUserVoted.NotVoted:
-                <input style="float:right" id="downvote-image-@post.Id" type="image" onclick="Downvote(@post.Id)" value="@post.DownvotesCount" src="~/Root/Downvote.png" width="42" height="42" />
-                <input style="float:right" id="upvote-image-@post.Id" type="image" onclick="Upvote(@post.Id)" value="@post.UpvotesCount" src="~/Root/Upvote.png" width="42" height="42" />
-            break;
-            case CurrentUserVoted.Upvote:
-                <input style="float:right" id="upvote-image-@post.Id" type="image" onclick="Downvote(@post.Id)" value="@post.DownvotesCount" src="~/Root/Downvote.png" width="42" height="42" />
-
-            break;
-            case CurrentUserVoted.Downvote:
-                <input style="float:right" id="downvote-image-@post.Id" type="image" onclick="Upvote(@post.Id)" value="@post.UpvotesCount" src="~/Root/Upvote.png" width="42" height="42" />
-            break;
-}
-                    </div>
+     
                 </div>
             </div>
         </div>
@@ -44,8 +45,8 @@
     <span>
         @for (int i = 0; i < Model.NumberOfPages; i++)
         {
-                                        if (Model.CurrentPage == i)
-                                        {
+            if (Model.CurrentPage == i)
+            {
                 <input type="button" class="btn btn-success btn-sm" value="@i" onclick="getPostsForPage(@i)" />
             }
             else
@@ -62,8 +63,14 @@
             "url": "/Post/Upvote/" + postId,
             "type": "Post",
             success: function () {
-                $(`#upvote-image-${postId}`).hide();
-                $(`#downvote-image-${postId}`).show();
+                $(`#vote-container-${postId}`).empty();
+
+                jQuery('<input/>', {
+                    type: "image",
+                    onclick: `Downvote(${postId})`,
+                    src: "/Root/Downvote.png",
+                    style: "float:right; width:3%;height:3%;"
+                }).appendTo(`#vote-container-${postId}`);
             }
         })
     }
@@ -73,8 +80,14 @@
             "url": "/Post/Downvote/" + postId,
             "type": "Post",
             success: function () {
-                $(`#downvote-image-${postId}`).hide();
-                $(`#upvote-image-${postId}`).show();
+                $(`#vote-container-${postId}`).empty();
+
+                jQuery('<input/>', {
+                    type: "image",
+                    onclick: `Upvote(${postId})`,
+                    src:"/Root/Upvote.png",
+                    style: "float:right; width:3%;height:3%;"
+                }).appendTo(`#vote-container-${postId}`);
             }
         })
     }

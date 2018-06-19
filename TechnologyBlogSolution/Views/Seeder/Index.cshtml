@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Seeder</h2>
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Seed subjects</h3>
+            @using (Html.BeginForm("SeedSubjects", "Seeder", FormMethod.Post))
+            {
+                <label for="num-of-subjects">Number of subjects</label>
+                <input id="num-of-subjects" type="number" name="NumOfSubjects" min="0"/>
+
+                <input type="submit" value="Seed" class="btn btn-success"/>
+            }
+        </div>
+        <div class="col-md-6">
+            <h3>Seed posts</h3>
+            @using (Html.BeginForm("SeedPosts", "Seeder", FormMethod.Post))
+             {
+             <label for="num-of-posts">Number of posts</label>
+             <input id="num-of-posts" type="number" name="NumOfPosts" min="0" />
+
+             <input type="submit" value="Seed" class="btn btn-success" />
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Seed comments</h3>
+            @using (Html.BeginForm("SeedComments", "Seeder", FormMethod.Post))
+             {
+             <label for="num-of-comments">Number of comments</label>
+             <input id="num-of-comments" type="number" name="NumOfComments" min="0" />
+
+            <input type="submit" value="Seed" class="btn btn-success" />
+            }
+        </div>
+        <div class="col-md-6">
+            <h3>Seed users</h3>
+            @using (Html.BeginForm("SeedUsers", "Seeder", FormMethod.Post))
+    {
+        <label for="num-of-users">Number of users</label>
+        <input id="num-of-users" type="number" name="NumOfUsers" min="0" />
+
+        <input type="submit" value="Seed" class="btn btn-success" />
+}
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

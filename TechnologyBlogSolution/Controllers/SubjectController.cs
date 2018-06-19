@@ -24,7 +24,6 @@ namespace TechnologyBlogSolution.Controllers
             return View();
         }
 
-
         [HttpGet]
         public ActionResult Posts(int id)
         {
@@ -75,7 +74,6 @@ namespace TechnologyBlogSolution.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Role.Admin)]
         public ActionResult SubjectsPartialPage(int pageNumber)
         {
             SubjectsPartialDto subjectPartial 

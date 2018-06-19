@@ -82,7 +82,9 @@ namespace TechnologyBlogSolution.Services.Implementations
                 Timestamp = DateTime.Now
             };
 
-            this.postRepository.Upvote(vote, postId);
+            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+
+            this.postRepository.Upvote(vote, postId, currentUserId);
             this.postRepository.Commit();
         }
 
@@ -94,7 +96,9 @@ namespace TechnologyBlogSolution.Services.Implementations
                 Timestamp = DateTime.Now
             };
 
-            this.postRepository.Downvote(vote, postId);
+            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+
+            this.postRepository.Downvote(vote, postId, currentUserId);
             this.postRepository.Commit();
         }
     }

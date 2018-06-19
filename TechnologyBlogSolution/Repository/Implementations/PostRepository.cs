@@ -159,6 +159,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
             Post post = this.DbContext.Posts
                 .Include(p => p.Downvotes)
+                .Include(p => p.Upvotes)
                 .FirstOrDefault(p => p.Id == postId);
             if(post.Upvotes.Any(p => p.User_Id == currenUserId))
             {
@@ -173,6 +174,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
             Post post = this.DbContext.Posts
                 .Include(p => p.Upvotes)
+                .Include(p => p.Downvotes)
                 .FirstOrDefault(p => p.Id == postId);
 
             if (post.Downvotes.Any(p => p.User_Id == currenUserId))
