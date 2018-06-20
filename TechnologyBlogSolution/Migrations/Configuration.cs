@@ -1,9 +1,13 @@
 namespace TechnologyBlogSolution.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using TechnologyBlogSolution.Models;
+    using TechnologyBlogSolution.Models.Users;
     using TechnologyBlogSolution.Repository.Implementations;
 
     internal sealed class Configuration : DbMigrationsConfiguration<TechnologyBlogDbContext>
@@ -28,6 +32,38 @@ namespace TechnologyBlogSolution.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            var roles = new[] { Role.Admin, Role.User };
+
+            foreach (var roleName in roles)
+            {
+                if (!context.Roles.Any(r => r.Name == roleName))
+                {
+                    var store = new RoleStore<IdentityRole>(context);
+                    var manager = new RoleManager<IdentityRole>(store);
+                    var role = new IdentityRole { Name = roleName };
+
+                    manager.Create(role);
+                }
+            }
+
+            string adminUsername = "admin@admin.com";
+            if (!context.Users.Any(u => u.UserName == adminUsername))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser {
+                    UserName = adminUsername,
+                    Email = adminUsername,
+                    EmailConfirmed = true,
+                    DateOfBirth = DateTime.UtcNow,
+                    FirstName="Admin",
+                    LastName="Admin",
+                };
+
+                manager.Create(user, "QW!@er34");
+                manager.AddToRole(user.Id, Role.Admin);
+            }
         }
     }
 }
