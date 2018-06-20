@@ -26,36 +26,46 @@
     </dl>
 </div>
 
-<div>
+@using (Html.BeginForm("SeedComments", "Seeder", FormMethod.Post))
+{
+    <input  name="PostId" value="@Model.Id" />
+    <label for="num-of-comments">Number of comments</label>
+    <input id="num-of-comments" type="number" class="form-control" name="NumberOfComments" min="0" />
+
+    <input type="submit" value="Seed" class="btn btn-success" />
+}
+
+<div class="row">
+    <h3>Seed comments</h3>
     @using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-    <div>
-        <textarea style="max-width:100%; width:50%" class="form-control" name="Content"></textarea>
-        <input hidden name="Id" value="@Model.Id" />
-        <input type="submit" name="name" value="Add comment" class="btn btn-success" />
-    </div>
+        <div>
+            <textarea style="max-width:100%; width:50%" class="form-control" name="Content"></textarea>
+            <input hidden name="Id" value="@Model.Id" />
+            <input type="submit" name="name" value="Add comment" class="btn btn-success" />
+        </div>
     }
 </div>
-    
+
 <hr />
 <div class="row">
     <div class="col-md-6">
         @foreach (var comment in Model.Comments)
-    {
-        <div class="card">
-            <div class="card-body">
-                <p class="card-text">@comment.Content</p>
+        {
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">@comment.Content</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <div style="float:left">@comment.Timestamp</div>
+                    <div style="float:right">@comment.Author.Name</div>
+                </div>
             </div>
-            <div class="card-footer text-muted">
-                <div style="float:left">@comment.Timestamp</div>
-                <div style="float:right">@comment.Author.Name</div>
-            </div>
-            </div>
-        <br />
-            }
-        </div>
+            <br />
+        }
     </div>
+</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

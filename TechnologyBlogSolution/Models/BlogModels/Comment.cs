@@ -13,11 +13,12 @@ namespace TechnologyBlogSolution.Models.BlogModels
         public DateTime Timestamp { get; set; }
         public bool IsDeleted { get; set; }
 
-        public int NumberofUpvotes { get; set; }
-        public int NumberOfDownvotes { get; set; }
-
         [ForeignKey(nameof(Author))]
         public string Author_Id { get; set; }
         public virtual ApplicationUser Author { get; set; }
+
+        [ForeignKey(nameof(Post))]
+        public int Post_Id { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

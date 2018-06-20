@@ -5,7 +5,17 @@
 }
 <div style="text-align:center"><h3>@Model.Name</h3></div>
 <div>@Model.Description</div>
-<hr />  
+<hr />
+
+@using (Html.BeginForm("SeedPosts", "Seeder", FormMethod.Post))
+{
+<input hidden="hidden" name="SubjectId" value="@Model.Id" />
+    <label for="num-of-posts">Number of posts</label>
+    <input id="num-of-posts" type="number" class="form-control" name="NumberOfPosts" min="0" />
+
+    <input type="submit" value="Seed" class="btn btn-success" />
+}
+
 <div id="posts-container" class="row">
 
 </div>

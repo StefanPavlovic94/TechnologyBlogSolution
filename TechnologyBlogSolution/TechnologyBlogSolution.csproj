@@ -269,6 +269,10 @@
     <Compile Include="Migrations\201806181947464_ChangedNumberOfVotesToActualListOfVotes.Designer.cs">
       <DependentUpon>201806181947464_ChangedNumberOfVotesToActualListOfVotes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806201927591_AddedRelationFromCommentToPost.cs" />
+    <Compile Include="Migrations\201806201927591_AddedRelationFromCommentToPost.Designer.cs">
+      <DependentUpon>201806201927591_AddedRelationFromCommentToPost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogModels\Vote.cs" />
     <Compile Include="Models\DTO\Comment\ListCommentDto.cs" />
@@ -277,6 +281,10 @@
     <Compile Include="Models\DTO\Post\CreatePostDto.cs" />
     <Compile Include="Models\DTO\Post\DetailsPostDto.cs" />
     <Compile Include="Models\DTO\Post\ListPostDto.cs" />
+    <Compile Include="Models\DTO\Seed\CommentSeedDto.cs" />
+    <Compile Include="Models\DTO\Seed\PostSeedDto.cs" />
+    <Compile Include="Models\DTO\Seed\SubjectSeedDto.cs" />
+    <Compile Include="Models\DTO\Seed\VoteSeedDto.cs" />
     <Compile Include="Models\DTO\Subject\CreateSubjectDto.cs" />
     <Compile Include="Models\DTO\Post\EditPostDto.cs" />
     <Compile Include="Models\DTO\Subject\DetailsSubjectDto.cs" />
@@ -289,8 +297,12 @@
     <Compile Include="Models\DTO\User\EditUserDto.cs" />
     <Compile Include="Models\DTO\User\ListUserDto.cs" />
     <Compile Include="Models\DTO\VoteDto.cs" />
+    <Compile Include="Repository\Contracts\ISeedRepository.cs" />
+    <Compile Include="Repository\Implementations\SeedRepository.cs" />
     <Compile Include="Services\Contracts\IPostService.cs" />
+    <Compile Include="Services\Contracts\ISeedService.cs" />
     <Compile Include="Services\Implementations\PostService.cs" />
+    <Compile Include="Services\Implementations\SeedService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Utilities\AutomapperProfile.cs" />
@@ -444,7 +456,6 @@
     <Content Include="Views\Post\PostsPartial.cshtml" />
     <Content Include="Views\Subject\SubjectsPartial.cshtml" />
     <Content Include="Views\Subject\Edit.cshtml" />
-    <Content Include="Views\Seeder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -482,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806181947464_ChangedNumberOfVotesToActualListOfVotes.resx">
       <DependentUpon>201806181947464_ChangedNumberOfVotesToActualListOfVotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806201927591_AddedRelationFromCommentToPost.resx">
+      <DependentUpon>201806201927591_AddedRelationFromCommentToPost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

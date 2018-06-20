@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TechnologyBlogSolution.Models.DTO.Seed;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Services.Contracts;
 using TechnologyBlogSolution.ViewModels.SubjectModels;
@@ -13,10 +15,13 @@ namespace TechnologyBlogSolution.Controllers
     public class SeederController : Controller
     {
         private readonly ISubjectService subjectService;
+        private readonly ISeedService seedService;
 
-        public SeederController(ISubjectService subjectServiceDependency)
+        public SeederController(ISubjectService subjectServiceDependency,
+                                ISeedService seedServ)
         {
             this.subjectService = subjectServiceDependency;
+            this.seedService = seedServ;
         }
         // GET: Seeder
         public ActionResult Index()
@@ -30,28 +35,26 @@ namespace TechnologyBlogSolution.Controllers
         }
 
         [HttpPost]
-        public void SeedSubjects()
-        { 
+        public ActionResult SeedSubjects(SubjectSeedDto subjectSeed)
+        {
+            this.seedService.SeedSubjects(subjectSeed);
+            return Json($"Subject seed is over, added {subjectSeed.NumberOfSubjects} new subjects");
         }
 
         [HttpPost]
-        public void SeedPosts()
+        public ActionResult SeedPosts(PostSeedDto postSeed)
         {
+            string userId = User.Identity.GetUserId();
+            this.seedService.SeedPosts(postSeed, userId);
+            return Json($"Post seed is over, added {postSeed.NumberOfPosts} new posts");
         }
 
         [HttpPost]
-        public void SeedComments()
+        public ActionResult SeedComments(CommentSeedDto commentSeed)
         {
-        }
-
-        [HttpPost]
-        public void SeedUsers()
-        {
-        }
-
-        [HttpPost]
-        public void SeedVotes()
-        {
+            string userId = User.Identity.GetUserId();
+            this.seedService.SeedComments(commentSeed, userId);
+            return Json($"Comment seed is over, added {commentSeed.NumberOfComments} new comments");
         }
     }
 }

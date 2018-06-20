@@ -3,9 +3,17 @@
     ViewBag.Title = "Index";
 }
 
+<div class="row">
+@using (Html.BeginForm("SeedSubjects", "Seeder", FormMethod.Post))
+{
+    <label for="num-of-subjects">Number of subjects</label>
+    <input id="num-of-subjects" class="form-control" type="number" name="NumberOfSubjects" min="0" />
 
-<div id="subjects-container" style="margin-top:5%" class="row"> 
-   
+    <input type="submit" value="Seed" class="btn btn-success" />
+}
+</div>
+<div id="subjects-container" style="margin-top:5%" class="row">
+
 </div>
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
@@ -15,14 +23,12 @@
         getSubjectsForPage(0);
     });
 
-    function getSubjectsForPage(pageNumber)
-    {
+    function getSubjectsForPage(pageNumber) {
         $.ajax({
-            "url" : "/Subject/SubjectsPartialPage",
+            "url": "/Subject/SubjectsPartialPage",
             "dataType": "html",
-            "data": { pageNumber : pageNumber },
-            success: function (pageHtml)
-            {
+            "data": { pageNumber: pageNumber },
+            success: function (pageHtml) {
                 $("#subjects-container").html(pageHtml);
             }
         })

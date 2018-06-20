@@ -536,10 +536,14 @@ namespace TechnologyBlogSolution.Controllers
         {
             if (UserManager.Users.Count() == 0)
             {
+                if (!roleManager.RoleExists(Role.User))
+                {
+                    roleManager.Create(new IdentityRole(Role.User));
+                }
+
                 if (!roleManager.RoleExists("Admin"))
                 {
-                    roleManager.Create(new IdentityRole(Role.Admin));
-                    roleManager.Create(new IdentityRole(Role.User));
+                    roleManager.Create(new IdentityRole(Role.Admin));                 
                 }
                 var admin = new Admin()
                 {
