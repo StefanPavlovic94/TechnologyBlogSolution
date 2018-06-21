@@ -273,18 +273,19 @@
     <Compile Include="Migrations\201806201927591_AddedRelationFromCommentToPost.Designer.cs">
       <DependentUpon>201806201927591_AddedRelationFromCommentToPost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806211605069_RemovedVotesFromSolution.cs" />
+    <Compile Include="Migrations\201806211605069_RemovedVotesFromSolution.Designer.cs">
+      <DependentUpon>201806211605069_RemovedVotesFromSolution.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\BlogModels\Vote.cs" />
-    <Compile Include="Models\DTO\Comment\ListCommentDto.cs" />
+    <Compile Include="Models\DTO\Comment\DetailsCommentDto.cs" />
     <Compile Include="Models\DTO\Comment\CreateCommentDto.cs" />
-    <Compile Include="Models\DTO\CurrentUserVoted.cs" />
+    <Compile Include="Models\DTO\Comment\PartialCommentsDto.cs" />
     <Compile Include="Models\DTO\Post\CreatePostDto.cs" />
     <Compile Include="Models\DTO\Post\DetailsPostDto.cs" />
     <Compile Include="Models\DTO\Post\ListPostDto.cs" />
-    <Compile Include="Models\DTO\Seed\CommentSeedDto.cs" />
-    <Compile Include="Models\DTO\Seed\PostSeedDto.cs" />
-    <Compile Include="Models\DTO\Seed\SubjectSeedDto.cs" />
-    <Compile Include="Models\DTO\Seed\VoteSeedDto.cs" />
+    <Compile Include="Models\DTO\Seed\SeedDataDto.cs" />
+    <Compile Include="Models\DTO\Seed\SeedUsersDto.cs" />
     <Compile Include="Models\DTO\Subject\CreateSubjectDto.cs" />
     <Compile Include="Models\DTO\Post\EditPostDto.cs" />
     <Compile Include="Models\DTO\Subject\DetailsSubjectDto.cs" />
@@ -296,7 +297,6 @@
     <Compile Include="Models\DTO\User\DetailsUserDto.cs" />
     <Compile Include="Models\DTO\User\EditUserDto.cs" />
     <Compile Include="Models\DTO\User\ListUserDto.cs" />
-    <Compile Include="Models\DTO\VoteDto.cs" />
     <Compile Include="Repository\Contracts\ISeedRepository.cs" />
     <Compile Include="Repository\Implementations\SeedRepository.cs" />
     <Compile Include="Services\Contracts\IPostService.cs" />
@@ -329,6 +329,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CommentModels\AddCommentView.cs" />
     <Compile Include="ViewModels\CommentModels\DetailsCommentView.cs" />
+    <Compile Include="ViewModels\CommentModels\PartialCommentsView.cs" />
     <Compile Include="ViewModels\PostModels\ListPostView.cs" />
     <Compile Include="ViewModels\PostModels\PostsPartialView.cs" />
     <Compile Include="ViewModels\SubjectModels\EditSubjectView.cs" />
@@ -344,7 +345,6 @@
     <Compile Include="ViewModels\UserModels\DetailsUserView.cs" />
     <Compile Include="ViewModels\UserModels\EditUserView.cs" />
     <Compile Include="ViewModels\UserModels\SimpleUserView.cs" />
-    <Compile Include="ViewModels\VoteView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -359,8 +359,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Root\Downvote.png" />
-    <Content Include="Root\Upvote.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -456,9 +454,12 @@
     <Content Include="Views\Post\PostsPartial.cshtml" />
     <Content Include="Views\Subject\SubjectsPartial.cshtml" />
     <Content Include="Views\Subject\Edit.cshtml" />
+    <Content Include="Views\Seeder\Index.cshtml" />
+    <Content Include="Views\Post\PostComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Root\" />
     <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
@@ -496,6 +497,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806201927591_AddedRelationFromCommentToPost.resx">
       <DependentUpon>201806201927591_AddedRelationFromCommentToPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806211605069_RemovedVotesFromSolution.resx">
+      <DependentUpon>201806211605069_RemovedVotesFromSolution.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

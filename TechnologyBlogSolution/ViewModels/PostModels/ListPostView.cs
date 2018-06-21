@@ -17,6 +17,5 @@ namespace TechnologyBlogSolution.ViewModels.PostModels
         public int DownvotesCount { get; set; }
 
         public SimpleUserView Author { get; set; }
-        public CurrentUserVoted CurrenUserVote { get; set; }
     }
 }

@@ -79,7 +79,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
             }
             else
             {
-                query.Take(10);
+                query = query.Take(10);
             }
 
             var subjects = query.ToList();

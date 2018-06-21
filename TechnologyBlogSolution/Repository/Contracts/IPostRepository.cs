@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
 
@@ -34,8 +35,6 @@ namespace TechnologyBlogSolution.Repository.Contracts
 
         PostsPartialDto GetPartialPosts(int subjectId, int pageNumber);
 
-        void Upvote(Vote vote, int postId, string currenUserId);
-
-        void Downvote(Vote vote, int postId, string currenUserId);
+        PartialCommentsDto GetPartialComments(int postId, int pageNumber);
     }
 }

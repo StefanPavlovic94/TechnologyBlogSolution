@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using System.Web.Mvc;
 using TechnologyBlogSolution.Models.BlogModels;
+using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Services.Contracts;
+using TechnologyBlogSolution.ViewModels.CommentModels;
 using TechnologyBlogSolution.ViewModels.PostModels;
 
 namespace TechnologyBlogSolution.Controllers
@@ -65,17 +67,8 @@ namespace TechnologyBlogSolution.Controllers
             PostDto detailsPost = this.postService.GetPost(id);
             DetailsPostView detailsPostView
                 = Mapper.Map<DetailsPostView>(detailsPost);
-            return View("Index", detailsPostView);
-        }
 
-        [HttpGet]
-        [Authorize]
-        public ActionResult GetPost(int id)
-        {
-            PostDto detailsPost = this.postService.GetPost(id);
-            DetailsPostView detailsPostView
-                = Mapper.Map<DetailsPostView>(detailsPost);
-            return Json(detailsPostView, JsonRequestBehavior.AllowGet);
+            return View("Index", detailsPostView);
         }
 
         [HttpGet]
@@ -84,23 +77,22 @@ namespace TechnologyBlogSolution.Controllers
         {
             PostsPartialDto postsDto
                 = this.postService.GetPartialPosts(subjectId, pageNumber);
+
             PostsPartialView postsView
                 = Mapper.Map<PostsPartialView>(postsDto);
             return PartialView("PostsPartial", postsView);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        public void Upvote(int id)
+        public ActionResult PostCommentsPartial(int postId, int pageNumber)
         {
-            this.postService.Upvote(id);
-        }
+            PartialCommentsDto partialComments 
+                = this.postService.GetPartialComments(postId, pageNumber);
 
-        [HttpPost]
-        [Authorize]
-        public void Downvote(int id)
-        {
-            this.postService.Downvote(id);
+            PartialCommentsView partialCommentsView
+                = Mapper.Map<PartialCommentsView>(partialComments);
+            return PartialView("PostComments", partialCommentsView);
         }
     }
 }

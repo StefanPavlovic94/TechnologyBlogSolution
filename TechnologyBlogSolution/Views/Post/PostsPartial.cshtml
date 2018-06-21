@@ -10,21 +10,7 @@
                         @Html.ActionLink("Delete", "DeletePost", "Post", new { post.Id }, new { @class = "btn btn-danger btn-sm" })
                         @Html.ActionLink("Open", "Open", "Post", new { post.Id }, new { @class = "btn btn-success btn-sm" })
                     </span>
-                <div id="vote-container-@post.Id">
-                    @switch (post.CurrenUserVote)
-        {
-            case CurrentUserVoted.NotVoted:
-                <input style="float:right; width:3%; height:3%;" type="image" onclick="Downvote(@post.Id)" value="@post.DownvotesCount" src="~/Root/Downvote.png" />
-                <input style="float:right; width:3%;height:3%;" type="image" onclick="Upvote(@post.Id)" value="@post.UpvotesCount" src="~/Root/Upvote.png" />
-    break;
-case CurrentUserVoted.Upvote:
-            <input style="float:right; width:3%;height:3%;" type="image" onclick="Downvote(@post.Id)" value="@post.DownvotesCount" src="~/Root/Downvote.png"/>
-
-break;
-case CurrentUserVoted.Downvote:
-            <input style="float:right; width:3%;height:3%;" type="image" onclick="Upvote(@post.Id)" value="@post.UpvotesCount" src="~/Root/Upvote.png"/>
-break;
-}
+                <div id="vote-container-@post.Id">            
                 </div>
             </div>
             <div class="card-body">
@@ -56,39 +42,3 @@ break;
         }
     </span>
 </div>
-
-<script>
-    function Upvote(postId) {
-        $.ajax({
-            "url": "/Post/Upvote/" + postId,
-            "type": "Post",
-            success: function () {
-                $(`#vote-container-${postId}`).empty();
-
-                jQuery('<input/>', {
-                    type: "image",
-                    onclick: `Downvote(${postId})`,
-                    src: "/Root/Downvote.png",
-                    style: "float:right; width:3%;height:3%;"
-                }).appendTo(`#vote-container-${postId}`);
-            }
-        })
-    }
-
-    function Downvote(postId) {
-        $.ajax({
-            "url": "/Post/Downvote/" + postId,
-            "type": "Post",
-            success: function () {
-                $(`#vote-container-${postId}`).empty();
-
-                jQuery('<input/>', {
-                    type: "image",
-                    onclick: `Upvote(${postId})`,
-                    src:"/Root/Upvote.png",
-                    style: "float:right; width:3%;height:3%;"
-                }).appendTo(`#vote-container-${postId}`);
-            }
-        })
-    }
-</script>

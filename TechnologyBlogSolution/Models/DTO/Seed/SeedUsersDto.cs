@@ -5,9 +5,8 @@ using System.Web;
 
 namespace TechnologyBlogSolution.Models.DTO.Seed
 {
-    public class PostSeedDto
+    public class SeedUsersDto
     {
-        public int SubjectId { get; set; }
-        public int NumberOfPosts { get; set; }
+        public int NumberOfUsers { get; set; }
     }
 }

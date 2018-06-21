@@ -1,0 +1,22 @@
+﻿@model TechnologyBlogSolution.ViewModels.CommentModels.PartialCommentsView
+
+<div class="row">
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">@comment.Content</p>
+            </div>
+            <div class="card-footer text-muted">
+                <div style="float:left;margin-right:3%">@comment.Timestamp  </div>
+                <div style="float:right">@comment.Author.Name</div>
+            </div>
+        </div>
+        <br />
+    }
+</div>
+<br />
+@if(Model.IsSequenceOver == false)
+{
+<button id="show-more-button" onclick="showMore(@Model.CurrentPageNumber)" class="btn btn-primary">Show more</button>
+}

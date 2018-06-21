@@ -15,7 +15,5 @@ namespace TechnologyBlogSolution.Models.DTO.Post
         public string Content { get; set; }
         public DetailsUserDto Author { get; set; }
         public DateTime Timestamp { get; set; }
-
-        public List<ListCommentDto> Comments { get; set; }
     }
 }

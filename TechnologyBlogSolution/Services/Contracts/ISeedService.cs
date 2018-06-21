@@ -8,8 +8,7 @@ namespace TechnologyBlogSolution.Services.Contracts
 {
     public interface ISeedService
     {
-        void SeedSubjects(SubjectSeedDto subjectSeed);
-        void SeedPosts(PostSeedDto postSeed, string userId);
-        void SeedComments(CommentSeedDto commentSeed, string userId);
+        void SeedData(SeedDataDto seedData);
+        void SeedUsers(SeedUsersDto seedUsers);
     }
 }

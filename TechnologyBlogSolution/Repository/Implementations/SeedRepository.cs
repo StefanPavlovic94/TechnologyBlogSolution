@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Seed;
+using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Repository.Contracts;
 
 namespace TechnologyBlogSolution.Repository.Implementations
@@ -16,65 +17,61 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
             this.dbContext = technologyBlogDbContext;
         }
-
-        public void SeedComments(CommentSeedDto commentSeed, string userId)
-        {
-            IEnumerable<Comment> comments
-                = new List<Comment>(new Comment[commentSeed.NumberOfComments])
-                .Select(c => new Comment()
-                {
-                    Author_Id = userId, 
-                    Post_Id = commentSeed.PostId,
-                    Timestamp = DateTime.Now
-                });
-
-            this.dbContext.Set<Comment>()
-                 .AddRange(comments);
-        }
-
-        public void SeedPosts(PostSeedDto postSeed, string userId)
-        {
-            string content = "Some seeded post contentSome seeded post content" +
-                "Some seeded post contentSome seeded post contentSome seeded post " +
-                "contentSome seeded post contentSome seeded post content" +
-                "Some seeded post contentSome seeded post contentSome seeded post content" +
-                "Some seeded post contentSome seeded post contentSome seeded post content" +
-                "Some seeded post contentSome seeded post contentSome seeded post content" +
-                "Some seeded post contentSome seeded post contentSome seeded post content";
-
-            IEnumerable<Post> posts
-                =new List<Post>(new Post[postSeed.NumberOfPosts])
-                .Select(p => new Post()
-                {
-                    Name = "Seeded post",
-                    Content = content,
-                    Subject_Id = postSeed.SubjectId, 
-                    Author_Id = userId,
-                    Timestamp = DateTime.Now
-                });
-
-            this.dbContext.Set<Post>()
-                 .AddRange(posts);
-        }
-
-        public void SeedSubjects(SubjectSeedDto subjectSeed)
-        {
-            IEnumerable<Subject> subjects
-                = new List<Subject>(new Subject[subjectSeed.NumberOfSubjects])
-                .Select(s => new Subject() 
-                  {
-                    Timestamp = DateTime.Now,
-                    Name = "Seeded subject",
-                    Description = "Seeded subject description for seeded subject"                 
-                });
-                
-
-            this.dbContext.Subjects.AddRange(subjects);
-        }
    
         public void Commit()
         {
             this.dbContext.SaveChanges();
+        }
+
+        public void SeedData(SeedDataDto seedData)
+        {
+            List<string> authorsIds = this.dbContext.Users.Select(u => u.Id).ToList();
+            int maxRandom = authorsIds.Count;
+            Random rnd = new Random();
+
+            List<Subject> subjects = new List<Subject>(new Subject[seedData.NumberOfSubjects])
+             .Select(s => new Subject()
+             {
+                 Timestamp = DateTime.Now,
+                 Name = "Seeded subject name",
+                 Description = "Seeded subject description",
+                 Posts = new List<Post>(new Post[seedData.NumberOfPosts])
+                         .Select(p => new Post()
+                         {
+                             Name = "Some post name",
+                             Author_Id = authorsIds.ElementAt(rnd.Next(0, maxRandom)),
+                             Content = "Some post content",
+                             Timestamp = DateTime.Now,
+                             Comments = new List<Comment>(new Comment[seedData.NumberOfComments])
+                                            .Select(c => new Comment()
+                                            {
+                                                Author_Id = authorsIds.ElementAt(rnd.Next(0,maxRandom)),
+                                                Content = "some comment content",
+                                                Timestamp = DateTime.Now
+                                            }).ToList(),                        
+                         }).ToList()
+             }).ToList();
+
+            this.dbContext.Subjects.AddRange(subjects);
+        }
+
+        public void SeedUsers(SeedUsersDto seedUsers)
+        {
+            for (int i = 0; i < seedUsers.NumberOfUsers; i++)
+            {
+                Random random = new Random();
+
+                string guidString = Guid.NewGuid().ToString();
+                User user = new User()
+                {
+                    UserName = guidString,
+                    Email = guidString + "@gmail.com",
+                    DateOfBirth = DateTime.Now
+                };
+
+                this.dbContext.Users.Attach(user);
+                this.dbContext.Entry(user).State = System.Data.Entity.EntityState.Added;
+            }
         }
     }
 }

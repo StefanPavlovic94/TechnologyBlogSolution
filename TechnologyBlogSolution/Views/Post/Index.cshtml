@@ -26,47 +26,38 @@
     </dl>
 </div>
 
-@using (Html.BeginForm("SeedComments", "Seeder", FormMethod.Post))
-{
-    <input  name="PostId" value="@Model.Id" />
-    <label for="num-of-comments">Number of comments</label>
-    <input id="num-of-comments" type="number" class="form-control" name="NumberOfComments" min="0" />
-
-    <input type="submit" value="Seed" class="btn btn-success" />
-}
-
-<div class="row">
-    <h3>Seed comments</h3>
+<div class="col-md-6">
     @using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
     {
-        @Html.AntiForgeryToken()
-        <div>
-            <textarea style="max-width:100%; width:50%" class="form-control" name="Content"></textarea>
-            <input hidden name="Id" value="@Model.Id" />
-            <input type="submit" name="name" value="Add comment" class="btn btn-success" />
-        </div>
+    <input name="Id" value="@Model.Id" hidden="hidden"/>
+    <textarea class="form-control" style="width:100%" name="Content"></textarea><br />
+    <input type="submit" onclick="showMore(0)" value="Add comment" class="btn btn-success"/>
     }
+
+</div>
+<hr />
+<div id="comments-container" class="col-md-6">
+       
 </div>
 
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        @foreach (var comment in Model.Comments)
-        {
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-text">@comment.Content</p>
-                </div>
-                <div class="card-footer text-muted">
-                    <div style="float:left">@comment.Timestamp</div>
-                    <div style="float:right">@comment.Author.Name</div>
-                </div>
-            </div>
-            <br />
-        }
-    </div>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        showMore(0);
+    });
+
+    function showMore(pageNumber)
+    {
+        $.ajax({
+            "url": "/Post/PostCommentsPartial",
+            "type": "get",
+            "data": { postId: @Model.Id, pageNumber: pageNumber },
+            success: function (commentsPage)
+            {
+                $("#show-more-button").remove();
+                $("#comments-container").append(commentsPage);
+            }
+        })
+    }
+</script>

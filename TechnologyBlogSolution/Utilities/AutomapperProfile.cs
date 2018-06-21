@@ -106,15 +106,13 @@ namespace TechnologyBlogSolution.Models
 
             CreateMap<CreateCommentDto, Comment>();
 
-            CreateMap<ListCommentDto, DetailsCommentView>();
+            CreateMap<DetailsCommentDto, DetailsCommentView>();
 
             CreateMap<SubjectsPartialDto, SubjectsPartialView>();
 
             CreateMap<PostsPartialDto, PostsPartialView>();
 
-            CreateMap<VoteDto, VoteView>()
-                .ForMember(v => v.Timestamp, opt => opt
-                    .MapFrom(src => src.Timestamp.ToString(AutomapperProfile.HtmlDetailsDateFormat)));
+            CreateMap<PartialCommentsView, PartialCommentsDto>();
         }
     }
 }

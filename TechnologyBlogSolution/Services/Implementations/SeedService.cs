@@ -17,22 +17,16 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.seedRepository = seedRepo;
         }
 
-        public void SeedComments(CommentSeedDto commentSeed, string userId)
+        public void SeedData(SeedDataDto seedData)
         {
-            this.seedRepository.SeedComments(commentSeed, userId);
+            this.seedRepository.SeedData(seedData);
             this.seedRepository.Commit();
         }
 
-        public void SeedPosts(PostSeedDto postSeed, string userId)
+        public void SeedUsers(SeedUsersDto seedUsers)
         {
-            this.seedRepository.SeedPosts(postSeed, userId);
+            this.seedRepository.SeedUsers(seedUsers);
             this.seedRepository.Commit();
         }
-
-        public void SeedSubjects(SubjectSeedDto subjectSeed)
-        {
-            this.seedRepository.SeedSubjects(subjectSeed);
-            this.seedRepository.Commit();
-        } 
     }
 }

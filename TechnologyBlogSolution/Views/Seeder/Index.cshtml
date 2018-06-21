@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<br />
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("SeedUsers", "Seeder", FormMethod.Post))
+    {
+        <div class="form-horizontal">
+            <h4>Seed users</h4>
+            <hr />
+            <div class="form-group">
+                <label for="number-of-users">Users</label>
+                <input id="number-of-users" type="number" name="NumberOfUsers" class="form-control" min="1" />
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Seed users" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+            }
+        </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("SeedData", "Seeder", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Seed data</h4>
+            <hr />
+            <div class="form-group">
+                <label for="number-of-subjects">Subject</label>
+                <input id="number-of-subjects" type="number" name="NumberOfSubjects" min="1"  class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="number-of-posts">Posts</label>
+                <input id="number-of-posts" type="number" name="NumberOfPosts" min="1" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="number-of-comments">Comments</label>
+                <input id="number-of-comments" type="number" name="NumberOfComments" min="1" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Seed data" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+}
+    </div>
+    </div>

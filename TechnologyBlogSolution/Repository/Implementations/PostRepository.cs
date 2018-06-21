@@ -7,6 +7,7 @@ using System.Web;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO;
+using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.DTO.User;
@@ -90,14 +91,48 @@ namespace TechnologyBlogSolution.Repository.Implementations
             return posts;
         }
 
+        public PartialCommentsDto GetPartialComments(int postId, int pageNumber)
+        {
+            PartialCommentsDto partialComments = new PartialCommentsDto();
+            partialComments.IsSequenceOver = true;
+
+            var commentsQuery = this.DbContext.Comments
+                .Where(c => c.Post_Id == postId)
+                .OrderByDescending(c => c.Id)
+                .AsQueryable();
+
+            commentsQuery = commentsQuery.Skip(pageNumber * 10).Take(11);
+
+            partialComments.CurrentPageNumber = ++pageNumber;
+
+            var commentsList = commentsQuery
+                .Select(c => new DetailsCommentDto()
+                {
+                   Id = c.Id,
+                   Timestamp = c.Timestamp,
+                   Author = new DetailsUserDto()
+                   {
+                       FullName = c.Author.UserName,
+                       Id = c.Author_Id
+                   },
+                   Content = c.Content
+                }).ToList();
+
+            if (commentsList.Count == 11)
+            {
+                partialComments.IsSequenceOver = false;
+                commentsList.RemoveAt(10);
+            }
+            partialComments.Comments = commentsList;
+            return partialComments;
+        }
+
         public PostsPartialDto GetPartialPosts(int subjectId, int pageNumber)
         {
             var postsQuery = this.DbContext.Posts
                 .OrderByDescending(p => p.Timestamp)
                 .Where(p => p.Subject_Id == subjectId)
-                .Where(p => p.IsDeleted == false)
-                .Include(p => p.Upvotes)
-                .Include(p => p.Downvotes);
+                .Where(p => p.IsDeleted == false);
 
             int numberOfPosts = postsQuery.Count();
 
@@ -124,8 +159,6 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 postsPartial.CurrentPage = pageNumber / 1;
             }
 
-            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
-
             postsPartial.Posts = postsQuery.Select(p => new ListPostDto()
             {
                 Id = p.Id,
@@ -136,14 +169,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 {
                     Id = p.Author.Id,
                     FullName = p.Author.UserName,
-                },
-                NumberOfDownvotes = p.Downvotes.Count,
-                NumberOfUpvotes = p.Upvotes.Count,
-                CurrenUserVote = p.Upvotes.Any(u => u.User_Id == currentUserId) 
-                                                    ? CurrentUserVoted.Upvote : 
-                                   p.Downvotes.Any(u => u.User_Id == currentUserId) 
-                                                    ? CurrentUserVoted.Downvote :
-                                                      CurrentUserVoted.NotVoted
+                }               
             }).ToList();
 
             return postsPartial;
@@ -151,39 +177,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
         public Post GetPost(int id)
         {
-           return this.DbContext.Posts
-                .FirstOrDefault(p => p.Id == id);
-        }
-
-        public void Downvote(Vote vote, int postId, string currenUserId)
-        {
-            Post post = this.DbContext.Posts
-                .Include(p => p.Downvotes)
-                .Include(p => p.Upvotes)
-                .FirstOrDefault(p => p.Id == postId);
-            if(post.Upvotes.Any(p => p.User_Id == currenUserId))
-            {
-                Vote upvote = post.Upvotes.FirstOrDefault(p => p.User_Id == currenUserId);
-                post.Upvotes.Remove(vote);
-            }
-
-            post.Downvotes.Add(vote);
-        }
-
-        public void Upvote(Vote vote, int postId, string currenUserId)
-        {
-            Post post = this.DbContext.Posts
-                .Include(p => p.Upvotes)
-                .Include(p => p.Downvotes)
-                .FirstOrDefault(p => p.Id == postId);
-
-            if (post.Downvotes.Any(p => p.User_Id == currenUserId))
-            {
-                Vote downvote = post.Downvotes.FirstOrDefault(p => p.User_Id == currenUserId);
-                post.Downvotes.Remove(vote);
-            }
-
-            post.Upvotes.Add(vote);
-        }
+           Post post =  this.DbContext.Posts.FirstOrDefault(p => p.Id == id);
+           return post;
+        }    
     }
 }

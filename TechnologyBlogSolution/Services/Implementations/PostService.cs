@@ -27,8 +27,6 @@ namespace TechnologyBlogSolution.Services.Implementations
             Post post = this.postRepository.GetPost(id);
             PostDto detailsPost 
                 = Mapper.Map<PostDto>(post);
-            detailsPost.Comments = detailsPost.Comments
-                .OrderByDescending(p => p.Timestamp).ToList();
             return detailsPost;
         }
 
@@ -74,32 +72,9 @@ namespace TechnologyBlogSolution.Services.Implementations
            return this.postRepository.GetPartialPosts(subjectId, pageNumber);
         }
 
-        public void Upvote(int postId)
+        public PartialCommentsDto GetPartialComments(int postId, int pageNumber)
         {
-            Vote vote = new Vote()
-            {
-                User_Id = HttpContext.Current.User.Identity.GetUserId(),
-                Timestamp = DateTime.Now
-            };
-
-            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
-
-            this.postRepository.Upvote(vote, postId, currentUserId);
-            this.postRepository.Commit();
-        }
-
-        public void Downvote(int postId)
-        {
-            Vote vote = new Vote()
-            {
-                User_Id = HttpContext.Current.User.Identity.GetUserId(),
-                Timestamp = DateTime.Now
-            };
-
-            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
-
-            this.postRepository.Downvote(vote, postId, currentUserId);
-            this.postRepository.Commit();
+            return this.postRepository.GetPartialComments(postId, pageNumber);
         }
     }
 }

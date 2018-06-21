@@ -5,9 +5,10 @@ using System.Web;
 
 namespace TechnologyBlogSolution.Models.DTO.Seed
 {
-    public class CommentSeedDto
+    public class SeedDataDto
     {
-        public int PostId { get; set; }
+        public int NumberOfSubjects { get; set; }
+        public int NumberOfPosts { get; set; }
         public int NumberOfComments { get; set; }
     }
 }

@@ -11,9 +11,6 @@ namespace TechnologyBlogSolution.ViewModels.PostModels
         public string Name { get; set; }
         public string Content { get; set; }
         public string Timestamp { get; set; }
-
-        public List<DetailsCommentView> Comments { get; set; }
-
         public SimpleUserView Author { get; set; }
     }
 }
