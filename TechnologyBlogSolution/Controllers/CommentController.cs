@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace TechnologyBlogSolution.Controllers
         {
             CreateCommentDto createComment 
                 = Mapper.Map<CreateCommentDto>(commentView);
-            this.postService.AddComment(createComment);
+            string userId = HttpContext.User.Identity.GetUserId();
+            this.postService.AddComment(createComment, userId);
             return RedirectToAction("Open", "Post", new { commentView.Id });
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Comment;
@@ -56,7 +57,8 @@ namespace TechnologyBlogSolution.Controllers
         public ActionResult CreatePost(CreatePostView createPostView)
         {
             CreatePostDto createPost = Mapper.Map<CreatePostDto>(createPostView);
-            this.postService.CreatePost(createPost);
+            string userId = HttpContext.User.Identity.GetUserId();
+            this.postService.CreatePost(createPost, userId);
             return RedirectToAction("Index", "Subject");
         }
 

@@ -36,10 +36,10 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.postRepository.Commit();
         }
 
-        public void CreatePost(CreatePostDto createPost)
+        public void CreatePost(CreatePostDto createPost, string authorId)
         {
             Post post = Mapper.Map<Post>(createPost);
-            post.Author_Id = HttpContext.Current.User.Identity.GetUserId();
+            post.Author_Id = authorId;
             this.postRepository.CreatePost(post, createPost.SubjectId);
             this.postRepository.Commit();
         }
@@ -51,13 +51,14 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.postRepository.Commit();
         }
 
-        public void AddComment(CreateCommentDto commentDto)
+        public void AddComment(CreateCommentDto commentDto, string authorId)
         {
             Comment comment = Mapper.Map<Comment>(commentDto);
             comment.Timestamp = DateTime.Now;
             comment.IsDeleted = false;
-            comment.Author_Id = HttpContext.Current.User.Identity.GetUserId();
-            this.postRepository.AddComment(comment, commentDto.PostId);
+            comment.Author_Id = authorId;
+            comment.Post_Id = commentDto.PostId;
+            this.postRepository.AddComment(comment);
             this.postRepository.Commit();
         }
 

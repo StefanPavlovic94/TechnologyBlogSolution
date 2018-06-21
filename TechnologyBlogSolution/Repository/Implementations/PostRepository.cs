@@ -21,11 +21,9 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
         }
 
-        public void AddComment(Comment comment, int postId)
+        public void AddComment(Comment comment)
         {
-            Post post = this.DbContext.Posts.Include(p => p.Comments)
-                .FirstOrDefault(p => p.Id == postId);
-            post.Comments.Add(comment);
+            this.DbContext.Comments.Add(comment);
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                     Name = p.Name,
                     Author = new DetailsUserDto()
                     {
-                    Id = p.Author.Id,
+                    Id = p.Author_Id,
                     FullName = p.Author.FirstName 
                     + " " 
                     + p.Author.LastName
@@ -167,7 +165,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 Content = p.Content.Substring(0, 150),
                 Author = new DetailsUserDto()
                 {
-                    Id = p.Author.Id,
+                    Id = p.Author_Id,
                     FullName = p.Author.UserName,
                 }               
             }).ToList();

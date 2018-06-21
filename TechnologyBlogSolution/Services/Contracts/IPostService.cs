@@ -13,10 +13,10 @@ namespace TechnologyBlogSolution.Services.Contracts
     public interface IPostService
     {
         PostDto GetPost(int id);
-        void CreatePost(CreatePostDto createPost);
+        void CreatePost(CreatePostDto createPost, string authorId);
         void DeletePost(int id);
         void EditPost(EditPostDto post);
-        void AddComment(CreateCommentDto commentDto);
+        void AddComment(CreateCommentDto commentDto, string authorId);
 
         IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts);
 

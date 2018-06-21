@@ -460,7 +460,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Root\" />
-    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

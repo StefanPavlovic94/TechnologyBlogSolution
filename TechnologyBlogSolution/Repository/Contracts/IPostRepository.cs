@@ -29,7 +29,7 @@ namespace TechnologyBlogSolution.Repository.Contracts
 
         Post GetPost(int id);
 
-        void AddComment(Comment comment, int postId);
+        void AddComment(Comment comment);
 
         IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts);
 
