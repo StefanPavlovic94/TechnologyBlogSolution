@@ -52,7 +52,13 @@ namespace TechnologyBlogSolution.Repository.Implementations
             var query = this.DbContext.Subjects
                 .Where(s => s.IsDeleted == false)
                 .OrderByDescending(sub => sub.Timestamp)
-                .AsQueryable();
+                .Select(s => new ListSubjectDto()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description,
+                    NumberOfPosts = s.Posts.Count
+                });
 
             SubjectsPartialDto subjectsPartial
                 = new SubjectsPartialDto();
@@ -82,8 +88,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 query = query.Take(10);
             }
 
-            var subjects = query.ToList();
-            var listSubjects = Mapper.Map<List<ListSubjectDto>>(subjects);
+            var listSubjects = query.ToList(); ;
             subjectsPartial.Subjects =listSubjects;
 
             return subjectsPartial;

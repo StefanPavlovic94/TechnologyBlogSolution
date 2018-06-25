@@ -18,12 +18,10 @@
                 <p class="card-text">@post.Content</p>
             </div>
             <div class="card-footer text-muted">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div style="float:left">@post.Timestamp</div>
-                        <div style="float:right">@post.Author.Name</div>
-                    </div>
-     
+                <div class="row"> 
+                        <div class="col-md-4">@post.Timestamp</div>
+                        <div class="col-md-4">@post.NumberOfComments comments</div>
+                        <div class="col-md-4">@post.Author.Name</div>     
                 </div>
             </div>
         </div>

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Seed;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Repository.Contracts;
+using RandomNameGeneratorLibrary;
+using ET.FakeText;
 
 namespace TechnologyBlogSolution.Repository.Implementations
 {
@@ -28,6 +29,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
             List<string> authorsIds = this.dbContext.Users.Select(u => u.Id).ToList();
             int maxRandom = authorsIds.Count;
             Random rnd = new Random();
+            TextGenerator generator = new TextGenerator();
+            generator.MaxSentenceLength = 10;
 
             List<Subject> subjects = new List<Subject>(new Subject[seedData.NumberOfSubjects])
              .Select(s => new Subject()
@@ -38,15 +41,15 @@ namespace TechnologyBlogSolution.Repository.Implementations
                  Posts = new List<Post>(new Post[seedData.NumberOfPosts])
                          .Select(p => new Post()
                          {
-                             Name = "Some post name",
+                             Name = generator.GenerateWord(10),
                              Author_Id = authorsIds.ElementAt(rnd.Next(0, maxRandom)),
-                             Content = "Some post content",
+                             Content = generator.GenerateText(500),
                              Timestamp = DateTime.Now,
                              Comments = new List<Comment>(new Comment[seedData.NumberOfComments])
                                             .Select(c => new Comment()
                                             {
                                                 Author_Id = authorsIds.ElementAt(rnd.Next(0,maxRandom)),
-                                                Content = "some comment content",
+                                                Content = generator.GenerateText(50),
                                                 Timestamp = DateTime.Now
                                             }).ToList(),                        
                          }).ToList()
@@ -60,12 +63,16 @@ namespace TechnologyBlogSolution.Repository.Implementations
             for (int i = 0; i < seedUsers.NumberOfUsers; i++)
             {
                 Random random = new Random();
+                string firstName = RandomPersonNameExtensions.GenerateRandomFirstName(random);
+                string lastName = RandomPersonNameExtensions.GenerateRandomLastName(random);
+                string email = $"{firstName}.{lastName}@gmail.com";
 
-                string guidString = Guid.NewGuid().ToString();
                 User user = new User()
                 {
-                    UserName = guidString,
-                    Email = guidString + "@gmail.com",
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    UserName = email,
                     DateOfBirth = DateTime.Now
                 };
 

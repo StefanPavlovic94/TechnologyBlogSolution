@@ -12,9 +12,8 @@ namespace TechnologyBlogSolution.ViewModels.PostModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
-        public DateTime Timestamp { get; set; }
-        public int UpvotesCount { get; set; }
-        public int DownvotesCount { get; set; }
+        public string Timestamp { get; set; }
+        public int NumberOfComments { get; set; }
 
         public SimpleUserView Author { get; set; }
     }

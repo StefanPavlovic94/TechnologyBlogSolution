@@ -54,7 +54,7 @@ namespace TechnologyBlogSolution.Models
 
             CreateMap<CreatePostDto, Post>();
 
-            CreateMap<Post, DetailsPostView>()
+            CreateMap<Post, ListPostView>()
                 .ForPath(post => post.Author.Name,
                     opt => opt.MapFrom(p => p.Author.UserName))
                 .ForPath(post => post.Author.Id,
@@ -71,7 +71,7 @@ namespace TechnologyBlogSolution.Models
 
             CreateMap<EditPostDto, Post>();
 
-            CreateMap<Post, PostDto>();
+            CreateMap<Post, ListPostDto>();
 
             CreateMap<Post, ListPostDto>()
                 .ForPath(p => p.Author.FullName, opt => opt
@@ -81,9 +81,9 @@ namespace TechnologyBlogSolution.Models
                 .ForPath(p => p.Author.Name, opt => opt
                     .MapFrom(src => src.Author.FullName));
 
-            CreateMap<PostDto, EditPostView>();
+            CreateMap<ListPostDto, EditPostView>();
 
-            CreateMap<PostDto, DetailsPostView>()
+            CreateMap<ListPostDto, ListPostView>()
                 .ForMember(p => p.Timestamp, opt => opt
                     .MapFrom(src => src.Timestamp
                     .ToString(AutomapperProfile.HtmlDetailsDateFormat)));

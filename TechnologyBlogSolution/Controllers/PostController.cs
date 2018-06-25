@@ -38,7 +38,7 @@ namespace TechnologyBlogSolution.Controllers
         [Authorize(Roles = Role.Admin)]
         public ActionResult EditPost(int id)
         {
-            PostDto post = this.postService.GetPost(id);
+            ListPostDto post = this.postService.GetPost(id);
             EditPostView editPostView = Mapper.Map<EditPostView>(post);
             return View(editPostView);
         }
@@ -66,9 +66,9 @@ namespace TechnologyBlogSolution.Controllers
         [Authorize]
         public ActionResult Open(int id)
         {
-            PostDto detailsPost = this.postService.GetPost(id);
-            DetailsPostView detailsPostView
-                = Mapper.Map<DetailsPostView>(detailsPost);
+            ListPostDto detailsPost = this.postService.GetPost(id);
+            ListPostView detailsPostView
+                = Mapper.Map<ListPostView>(detailsPost);
 
             return View("Index", detailsPostView);
         }

@@ -10,6 +10,7 @@ namespace TechnologyBlogSolution.Models.DTO.Post
         public string Name { get; set; }
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
+        public int NumberOfComments { get; set; }
 
         public DetailsUserDto Author { get; set; }
     }

@@ -83,7 +83,8 @@ namespace TechnologyBlogSolution.Repository.Implementations
                     + p.Author.LastName
                     },
                     Content = p.Content.Substring(0,150),
-                    Timestamp = p.Timestamp
+                    Timestamp = p.Timestamp,
+                    NumberOfComments = p.Comments.Count
                 }).ToList();
 
             return posts;
@@ -163,6 +164,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 Name = p.Name,
                 Timestamp = p.Timestamp,
                 Content = p.Content.Substring(0, 150),
+                NumberOfComments = p.Comments.Count,
                 Author = new DetailsUserDto()
                 {
                     Id = p.Author_Id,

@@ -22,11 +22,11 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.postRepository = postRepo;
         }
 
-        public PostDto GetPost(int id)
+        public ListPostDto GetPost(int id)
         {
             Post post = this.postRepository.GetPost(id);
-            PostDto detailsPost 
-                = Mapper.Map<PostDto>(post);
+            ListPostDto detailsPost 
+                = Mapper.Map<ListPostDto>(post);
             return detailsPost;
         }
 

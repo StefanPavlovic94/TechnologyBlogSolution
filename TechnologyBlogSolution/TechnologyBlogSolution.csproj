@@ -60,6 +60,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FakeTextGenerator, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeTextGenerator.1.0.2\lib\FakeTextGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
     </Reference>
@@ -129,6 +132,9 @@
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="RandomNameGeneratorLibrary, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RandomNameGeneratorLibrary.1.2.2.0\lib\net40\RandomNameGeneratorLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -282,7 +288,6 @@
     <Compile Include="Models\DTO\Comment\CreateCommentDto.cs" />
     <Compile Include="Models\DTO\Comment\PartialCommentsDto.cs" />
     <Compile Include="Models\DTO\Post\CreatePostDto.cs" />
-    <Compile Include="Models\DTO\Post\DetailsPostDto.cs" />
     <Compile Include="Models\DTO\Post\ListPostDto.cs" />
     <Compile Include="Models\DTO\Seed\SeedDataDto.cs" />
     <Compile Include="Models\DTO\Seed\SeedUsersDto.cs" />
@@ -336,7 +341,6 @@
     <Compile Include="ViewModels\SubjectModels\ListSubjectView.cs" />
     <Compile Include="ViewModels\SubjectModels\SimpleSubjectView.cs" />
     <Compile Include="ViewModels\PostModels\CreatePostView.cs" />
-    <Compile Include="ViewModels\PostModels\DetailsPostView.cs" />
     <Compile Include="ViewModels\PostModels\EditPostView.cs" />
     <Compile Include="ViewModels\SubjectModels\CreateSubjectView.cs" />
     <Compile Include="ViewModels\SubjectModels\DetailsSubjectView.cs" />
