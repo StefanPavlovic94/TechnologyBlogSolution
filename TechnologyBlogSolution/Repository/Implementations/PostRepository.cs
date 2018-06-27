@@ -12,6 +12,7 @@ using TechnologyBlogSolution.Models.DTO.Post;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Models.DTO.User;
 using TechnologyBlogSolution.Repository.Contracts;
+using Z.EntityFramework.Plus;
 
 namespace TechnologyBlogSolution.Repository.Implementations
 {
@@ -50,19 +51,24 @@ namespace TechnologyBlogSolution.Repository.Implementations
         /// <returns></returns>
         public void DeletePost(int id)
         {
-            
-                Post post = this.DbContext.Posts
-                    .FirstOrDefault(p => p.Id == id);
-                post.IsDeleted = true; 
+            this.DbContext.Posts
+                .Where(p => p.Id == id)
+                .Update(p => new Post()
+                {
+                    IsDeleted = true
+                });
         }
 
 
         public void EditPost(Post post)
         {
-            Post existingPost = this.DbContext.Posts
-                .FirstOrDefault(p => p.Id == post.Id);
-            existingPost.Name = post.Name;
-            existingPost.Content = post.Content;
+            this.DbContext.Posts
+                .Where(p => p.Id == post.Id)
+                .Update(p => new Post()
+                {
+                    Name = post.Name,
+                    Content = post.Content
+                });
         }
 
         public IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts)
@@ -75,16 +81,14 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Author = new DetailsUserDto()
-                    {
-                    Id = p.Author_Id,
-                    FullName = p.Author.FirstName 
-                    + " " 
-                    + p.Author.LastName
-                    },
-                    Content = p.Content.Substring(0,150),
+                    Content = p.Content.Substring(0,150) + "...",
                     Timestamp = p.Timestamp,
-                    NumberOfComments = p.Comments.Count
+                    NumberOfComments = p.Comments.Count,
+                        Author = new DetailsUserDto()
+                        {
+                            Id = p.Author_Id,
+                            FullName = p.Author.FirstName + " " + p.Author.LastName,
+                        }
                 }).ToList();
 
             return posts;
@@ -129,9 +133,10 @@ namespace TechnologyBlogSolution.Repository.Implementations
         public PostsPartialDto GetPartialPosts(int subjectId, int pageNumber)
         {
             var postsQuery = this.DbContext.Posts
-                .OrderByDescending(p => p.Timestamp)
+                .Where(p => p.IsDeleted == false)
                 .Where(p => p.Subject_Id == subjectId)
-                .Where(p => p.IsDeleted == false);
+                .OrderByDescending(p => p.Id)
+                .AsQueryable();
 
             int numberOfPosts = postsQuery.Count();
 
@@ -163,13 +168,13 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 Id = p.Id,
                 Name = p.Name,
                 Timestamp = p.Timestamp,
-                Content = p.Content.Substring(0, 150),
+                Content = p.Content.Substring(0, 150) + "...",
                 NumberOfComments = p.Comments.Count,
-                Author = new DetailsUserDto()
-                {
-                    Id = p.Author_Id,
-                    FullName = p.Author.UserName,
-                }               
+                    Author = new DetailsUserDto()
+                    {
+                        Id = p.Author_Id,
+                        FullName = p.Author.UserName,
+                    }               
             }).ToList();
 
             return postsPartial;
@@ -177,8 +182,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
         public Post GetPost(int id)
         {
-           Post post =  this.DbContext.Posts.FirstOrDefault(p => p.Id == id);
-           return post;
+           return this.DbContext.Posts.FirstOrDefault(p => p.Id == id);
         }    
     }
 }

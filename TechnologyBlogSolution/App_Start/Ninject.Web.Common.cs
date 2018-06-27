@@ -54,10 +54,12 @@ namespace TechnologyBlogSolution.App_Start
                 kernel.Bind<ISubjectService>().To<SubjectService>();
                 kernel.Bind<IPostService>().To<PostService>();
                 kernel.Bind<ISeedService>().To<SeedService>();
+                kernel.Bind<ICommentService>().To<CommentService>();
 
                 kernel.Bind<ISubjectRepository>().To<SubjectRepository>();
                 kernel.Bind<IPostRepository>().To<PostRepository>();
                 kernel.Bind<ISeedRepository>().To<SeedRepository>();
+                kernel.Bind<ICommentRepository>().To<CommentRepository>();
                 kernel.Bind(typeof(IRepository<Subject>)).To(typeof(Repository<Subject>));
 
                 RegisterServices(kernel);

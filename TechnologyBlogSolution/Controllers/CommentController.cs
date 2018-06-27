@@ -14,21 +14,38 @@ namespace TechnologyBlogSolution.Controllers
     [Authorize]
     public class CommentController : Controller
     {
-        private IPostService postService {get; set;}
+        private readonly IPostService postService;
+        private readonly ICommentService commentService;
 
-        public CommentController(IPostService postServ)
+        public CommentController(IPostService postServ,
+                                 ICommentService commentServ)
         {
             this.postService = postServ;
+            this.commentService = commentServ;
         }
 
         [HttpPost]
-        public ActionResult AddComment(AddCommentView commentView)
+        public ActionResult AddComment(CreateCommentView commentView)
         {
             CreateCommentDto createComment 
                 = Mapper.Map<CreateCommentDto>(commentView);
+
             string userId = HttpContext.User.Identity.GetUserId();
+
             this.postService.AddComment(createComment, userId);
+
             return RedirectToAction("Open", "Post", new { commentView.Id });
+        }
+
+        [HttpGet]
+        public PartialViewResult GetLatestCommentsPartial()
+        {
+            List<DetailsCommentDto> commentDtos 
+                = this.commentService.GetLatestComments();
+
+            List<DetailsCommentView> commentViews
+                = Mapper.Map<List<DetailsCommentView>>(commentDtos);
+            return PartialView("LatestCommentsPartial", commentViews);
         }
     }
 }

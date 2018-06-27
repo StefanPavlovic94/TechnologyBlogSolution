@@ -206,6 +206,9 @@
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.8.1.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.8.1\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNet.Identity.Core">
@@ -302,10 +305,14 @@
     <Compile Include="Models\DTO\User\DetailsUserDto.cs" />
     <Compile Include="Models\DTO\User\EditUserDto.cs" />
     <Compile Include="Models\DTO\User\ListUserDto.cs" />
+    <Compile Include="Repository\Contracts\ICommentRepository.cs" />
     <Compile Include="Repository\Contracts\ISeedRepository.cs" />
+    <Compile Include="Repository\Implementations\CommentRepository.cs" />
     <Compile Include="Repository\Implementations\SeedRepository.cs" />
+    <Compile Include="Services\Contracts\ICommentService.cs" />
     <Compile Include="Services\Contracts\IPostService.cs" />
     <Compile Include="Services\Contracts\ISeedService.cs" />
+    <Compile Include="Services\Implementations\CommentService.cs" />
     <Compile Include="Services\Implementations\PostService.cs" />
     <Compile Include="Services\Implementations\SeedService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -385,6 +392,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -460,6 +468,7 @@
     <Content Include="Views\Subject\Edit.cshtml" />
     <Content Include="Views\Seeder\Index.cshtml" />
     <Content Include="Views\Post\PostComments.cshtml" />
+    <Content Include="Views\Comment\LatestCommentsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

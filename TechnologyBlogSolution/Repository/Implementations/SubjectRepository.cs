@@ -40,10 +40,10 @@ namespace TechnologyBlogSolution.Repository.Implementations
             return this.DbContext.Subjects
                 .Where(s => s.IsDeleted == false)
                 .Select(subj => new SimpleSubjectDto()
-            {
-                Id = subj.Id,
-                Name = subj.Name
-            }).ToList();
+                    {
+                        Id = subj.Id,
+                        Name = subj.Name
+                    }).ToList();
         }
 
         public SubjectsPartialDto GetPartialSubjects(int pageNumber)

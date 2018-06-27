@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TechnologyBlogSolution.ViewModels.CommentModels
 {
-    public class AddCommentView
+    public class CreateCommentView
     {
         public int Id { get; set; }
         public string Content { get; set; }

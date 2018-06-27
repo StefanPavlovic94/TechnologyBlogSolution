@@ -1,0 +1,16 @@
+﻿@model List<TechnologyBlogSolution.ViewModels.CommentModels.DetailsCommentView>
+<div class="row">
+    @foreach (var comment in Model)
+    {
+        <div class="card" style="width:100%; margin-bottom:5%">
+            <div class="card-body">
+                <p class="card-text">@comment.Content</p>
+            </div>
+            <div class="card-footer text-muted">
+                <div style="float:left;margin-right:3%">@comment.Timestamp  </div>
+                <div style="float:right">@comment.Author.Name</div>
+            </div>
+        </div>
+        <br />
+    }
+</div>

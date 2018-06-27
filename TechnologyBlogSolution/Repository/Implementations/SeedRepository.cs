@@ -65,7 +65,7 @@ namespace TechnologyBlogSolution.Repository.Implementations
                 Random random = new Random();
                 string firstName = RandomPersonNameExtensions.GenerateRandomFirstName(random);
                 string lastName = RandomPersonNameExtensions.GenerateRandomLastName(random);
-                string email = $"{firstName}.{lastName}@gmail.com";
+                string email = $"{firstName}.{lastName}{i}@gmail.com";
 
                 User user = new User()
                 {

@@ -100,7 +100,7 @@ namespace TechnologyBlogSolution.Models
                     .MapFrom(src => src.FullName));
             #endregion
 
-            CreateMap<AddCommentView, CreateCommentDto>()
+            CreateMap<CreateCommentView, CreateCommentDto>()
                 .ForMember(c => c.PostId, opt => opt
                     .MapFrom(src => src.Id));
 
