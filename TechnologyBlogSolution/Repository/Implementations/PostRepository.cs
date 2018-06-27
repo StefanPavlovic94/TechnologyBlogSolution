@@ -33,15 +33,17 @@ namespace TechnologyBlogSolution.Repository.Implementations
         /// <param name="post"></param>
         /// <param name="subjectId"></param>
         /// <returns></returns>
-        public void CreatePost(Post post, int subjectId)
+        public void CreatePost(Post post)
         {
-          
-                Subject subject = this.DbContext.Subjects
-                    .FirstOrDefault(subj => subj.Id == subjectId);
-
-                post.Timestamp = DateTime.Now;
-                subject.Posts.Add(post);
-                this.DbContext.Entry(post).State = EntityState.Added;    
+                this.DbContext.Subjects
+                    .Where(subj => subj.Id == post.Subject_Id)
+                    .Update(s => new Subject()
+                    {
+                        Posts = new List<Post>()
+                        {
+                            post
+                        }
+                    });
         }
 
         /// <summary>

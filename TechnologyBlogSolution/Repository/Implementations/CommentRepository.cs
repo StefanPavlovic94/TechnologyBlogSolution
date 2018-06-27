@@ -24,10 +24,10 @@ namespace TechnologyBlogSolution.Repository.Implementations
                     Timestamp = p.Timestamp,
                     Content = p.Content,
                     Author = new DetailsUserDto()
-                        {
+                    {
                         Id = p.Author_Id,
                         FullName = p.Author.FirstName + " " + p.Author.LastName
-                        }
+                    }
                 })
                 .Take(5)
                 .ToList();

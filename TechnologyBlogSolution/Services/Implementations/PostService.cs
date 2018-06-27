@@ -39,8 +39,11 @@ namespace TechnologyBlogSolution.Services.Implementations
         public void CreatePost(CreatePostDto createPost, string authorId)
         {
             Post post = Mapper.Map<Post>(createPost);
+            post.Subject_Id = createPost.SubjectId;
+            post.Timestamp = DateTime.Now;
             post.Author_Id = authorId;
-            this.postRepository.CreatePost(post, createPost.SubjectId);
+
+            this.postRepository.CreatePost(post);
             this.postRepository.Commit();
         }
 

@@ -18,15 +18,27 @@ namespace TechnologyBlogSolution.Services.Contracts
         void EditPost(EditPostDto post);
         void AddComment(CreateCommentDto commentDto, string authorId);
 
+        /// <summary>
+        /// Get top 10 comments
+        /// </summary>
+        /// <param name="numberOfPosts"></param>
+        /// <returns></returns>
         IEnumerable<ListPostDto> GetNewestPosts(int numberOfPosts);
 
         /// <summary>
-        /// Get subjects posts
+        /// Get posts for subject based on page
         /// </summary>
-        /// <param name="subjectId"></param>
-        /// <param name="pageNumber">Method will get posts only for that page</param>
+        /// <param name="subjectId">Id of subject, parent</param>
+        /// <param name="pageNumber">Represent number of already taken pages</param>
         /// <returns></returns>
         PostsPartialDto GetPartialPosts(int subjectId, int pageNumber);
+
+        /// <summary>
+        /// Get comments for post based on page
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <param name="pageNumber">Represent number of already taken pages</param>
+        /// <returns></returns>
         PartialCommentsDto GetPartialComments(int postId, int pageNumber);
     }
 }

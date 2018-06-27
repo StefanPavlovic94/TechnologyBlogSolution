@@ -28,6 +28,7 @@ namespace TechnologyBlogSolution.Services.Implementations
         {
             Subject subject = Mapper.Map<Subject>(subjectDto);
             subject.Timestamp = DateTime.Now;
+
             this.subjectRepository.Add(subject);
             this.subjectRepository.Commit();
         }

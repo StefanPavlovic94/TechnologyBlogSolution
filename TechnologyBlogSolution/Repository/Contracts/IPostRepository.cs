@@ -17,7 +17,7 @@ namespace TechnologyBlogSolution.Repository.Contracts
         /// Create post for subject
         /// </summary>
         /// <returns></returns>
-        void CreatePost(Post post, int subjectId);
+        void CreatePost(Post post);
 
         /// <summary>
         /// Soft delete post
