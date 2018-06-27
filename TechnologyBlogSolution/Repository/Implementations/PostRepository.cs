@@ -27,6 +27,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
             this.DbContext.Comments.Add(comment);
         }
 
+        public int CountPosts()
+        {
+            return this.DbContext.Posts.Count();
+        }
+
         /// <summary>
         /// Create new post for subject
         /// </summary>

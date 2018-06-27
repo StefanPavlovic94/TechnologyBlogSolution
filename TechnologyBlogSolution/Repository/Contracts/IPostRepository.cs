@@ -36,5 +36,7 @@ namespace TechnologyBlogSolution.Repository.Contracts
         PostsPartialDto GetPartialPosts(int subjectId, int pageNumber);
 
         PartialCommentsDto GetPartialComments(int postId, int pageNumber);
+
+        int CountPosts();
     }
 }

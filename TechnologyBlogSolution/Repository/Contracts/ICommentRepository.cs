@@ -7,5 +7,6 @@ namespace TechnologyBlogSolution.Repository.Contracts
     public interface ICommentRepository : IRepository<Comment>
     {
         List<DetailsCommentDto> GetLatestComments();
+        int CountComments();
     }
 }

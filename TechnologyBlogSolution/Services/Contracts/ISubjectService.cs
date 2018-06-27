@@ -9,6 +9,7 @@ namespace TechnologyBlogSolution.Services.Contracts
         void CreateSubject(CreateSubjectDto subject);
         void DeleteSubject(int id);
         void EditSubject(EditSubjectDto subject);
+        int CountSubjects();
 
         IEnumerable<ListSubjectDto> GetSubjects();
         SubjectDto GetSubject(int id);

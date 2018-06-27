@@ -10,5 +10,6 @@ namespace TechnologyBlogSolution.Services.Contracts
     public interface ICommentService
     {
         List<DetailsCommentDto> GetLatestComments();
+        int CountComments();
     }
 }

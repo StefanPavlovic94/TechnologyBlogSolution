@@ -80,5 +80,10 @@ namespace TechnologyBlogSolution.Services.Implementations
         {
             return this.postRepository.GetPartialComments(postId, pageNumber);
         }
+
+        public int CountPosts()
+        {
+            return this.postRepository.CountPosts();
+        }
     }
 }

@@ -17,6 +17,11 @@ namespace TechnologyBlogSolution.Services.Implementations
             this.commentRepository = commentRepo;
         }
 
+        public int CountComments()
+        {
+           return this.commentRepository.CountComments();
+        }
+
         public List<DetailsCommentDto> GetLatestComments()
         {
             return this.commentRepository.GetLatestComments();

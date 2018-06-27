@@ -64,5 +64,10 @@ namespace TechnologyBlogSolution.Services.Implementations
         {
            return this.subjectRepository.GetPartialSubjects(pageNumber);
         }
+
+        public int CountSubjects()
+        {
+            return this.subjectRepository.CountSubjects();
+        }
     }
 }

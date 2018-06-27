@@ -11,5 +11,6 @@ namespace TechnologyBlogSolution.Repository.Contracts
     {
         IEnumerable<ApplicationUser> GetUsers();
         ApplicationUser GetUser(string id);
+        int CountUsers();
     }
 }

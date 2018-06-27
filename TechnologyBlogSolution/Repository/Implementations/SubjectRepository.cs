@@ -93,5 +93,10 @@ namespace TechnologyBlogSolution.Repository.Implementations
 
             return subjectsPartial;
         }
+
+        public int CountSubjects()
+        {
+            return this.DbContext.Subjects.Count();
+        }
     }
 }

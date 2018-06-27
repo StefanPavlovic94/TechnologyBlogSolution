@@ -14,6 +14,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
         }
 
+        public int CountUsers()
+        {
+           return this.DbContext.Users.Count();
+        }
+
         public ApplicationUser GetUser(string id)
         {
            return this.DbContext.Users

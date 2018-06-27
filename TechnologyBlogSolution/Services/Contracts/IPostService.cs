@@ -17,6 +17,7 @@ namespace TechnologyBlogSolution.Services.Contracts
         void DeletePost(int id);
         void EditPost(EditPostDto post);
         void AddComment(CreateCommentDto commentDto, string authorId);
+        int CountPosts();
 
         /// <summary>
         /// Get top 10 comments

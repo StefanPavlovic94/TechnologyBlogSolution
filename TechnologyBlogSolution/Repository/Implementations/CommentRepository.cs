@@ -14,6 +14,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
         {
         }
 
+        public int CountComments()
+        {
+            return this.DbContext.Comments.Count();
+        }
+
         public List<DetailsCommentDto> GetLatestComments()
         {
             return this.DbContext.Comments
