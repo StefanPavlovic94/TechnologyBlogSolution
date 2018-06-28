@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using TechnologyBlogSolution.DomainEvents.Contracts;
+using TechnologyBlogSolution.DomainEvents.Implementations.Events;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Subject;
 using TechnologyBlogSolution.Repository.Contracts;
@@ -11,10 +13,13 @@ namespace TechnologyBlogSolution.Services.Implementations
     public class SubjectService : ISubjectService
     {
         private ISubjectRepository subjectRepository;
+        private IDomainEventDispatcher dispatcher;
 
-        public SubjectService(ISubjectRepository subjectRepo)
+        public SubjectService(ISubjectRepository subjectRepo,
+                              IDomainEventDispatcher dispatcher)
         {
             this.subjectRepository = subjectRepo;
+            this.dispatcher = dispatcher;
         }
 
         public SubjectDto GetSubject(int id)
@@ -23,7 +28,6 @@ namespace TechnologyBlogSolution.Services.Implementations
             return Mapper.Map<SubjectDto>(subject);
         }
 
-
         public void CreateSubject(CreateSubjectDto subjectDto)
         {
             Subject subject = Mapper.Map<Subject>(subjectDto);
@@ -31,6 +35,14 @@ namespace TechnologyBlogSolution.Services.Implementations
 
             this.subjectRepository.Add(subject);
             this.subjectRepository.Commit();
+
+            IDomainEvent domainEvent = new SubjectAddedDomainEvent()
+            {
+                Timestamp = DateTime.Now,
+                NumberOfAddedSubjects = 1
+            };
+            
+            this.dispatcher.Dispatch(domainEvent);
         }
 
         public void DeleteSubject(int id)

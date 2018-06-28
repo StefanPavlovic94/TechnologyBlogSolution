@@ -11,7 +11,6 @@ using TechnologyBlogSolution.ViewModels.CommentModels;
 
 namespace TechnologyBlogSolution.Controllers
 {
-    [Authorize]
     public class CommentController : Controller
     {
         private readonly IPostService postService;
@@ -25,6 +24,7 @@ namespace TechnologyBlogSolution.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult AddComment(CreateCommentView commentView)
         {
             CreateCommentDto createComment 
@@ -46,6 +46,13 @@ namespace TechnologyBlogSolution.Controllers
             List<DetailsCommentView> commentViews
                 = Mapper.Map<List<DetailsCommentView>>(commentDtos);
             return PartialView("LatestCommentsPartial", commentViews);
+        }
+
+        [HttpGet]
+        public ActionResult CountComments()
+        {
+            int commentsCount = this.commentService.CountComments();
+            return Json(commentsCount, JsonRequestBehavior.AllowGet);
         }
     }
 }

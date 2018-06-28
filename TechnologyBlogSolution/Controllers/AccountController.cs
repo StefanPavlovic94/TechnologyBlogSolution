@@ -14,6 +14,7 @@ using Microsoft.Owin.Security.DataProtection;
 using TechnologyBlogSolution.Models;
 using TechnologyBlogSolution.Models.Users;
 using TechnologyBlogSolution.Repository.Implementations;
+using TechnologyBlogSolution.Services.Contracts;
 using TechnologyBlogSolution.ViewModels;
 
 namespace TechnologyBlogSolution.Controllers
@@ -35,11 +36,14 @@ namespace TechnologyBlogSolution.Controllers
                 return _signInManager;
             }
         }
-        public AccountController()
+        private IUserService userService;
+
+        public AccountController(IUserService userService)
         {
             this.dbContext = new TechnologyBlogDbContext();
             this.UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(this.dbContext));
             this.roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(this.dbContext));
+            this.userService = userService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -483,6 +487,8 @@ namespace TechnologyBlogSolution.Controllers
             }
         }
 
+        public IUserService UserService { get; }
+
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -560,6 +566,13 @@ namespace TechnologyBlogSolution.Controllers
                 throw new InvalidOperationException("This operation is not valid!");
             }
             return Json("Success", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult CountUsers()
+        {
+            int usersCount = this.userService.CountUsers();
+            return Json(usersCount, JsonRequestBehavior.AllowGet);
         }
     }
 }

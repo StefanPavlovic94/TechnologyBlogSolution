@@ -96,5 +96,12 @@ namespace TechnologyBlogSolution.Controllers
                 = Mapper.Map<PartialCommentsView>(partialComments);
             return PartialView("PostComments", partialCommentsView);
         }
+
+        [HttpGet]
+        public ActionResult CountPosts()
+        {
+            int postsCount = this.postService.CountPosts();
+            return Json(postsCount, JsonRequestBehavior.AllowGet);
+        }
     }
 }

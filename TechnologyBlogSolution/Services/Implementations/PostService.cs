@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TechnologyBlogSolution.DomainEvents.Contracts;
+using TechnologyBlogSolution.DomainEvents.Implementations.Events;
 using TechnologyBlogSolution.Models.BlogModels;
 using TechnologyBlogSolution.Models.DTO.Comment;
 using TechnologyBlogSolution.Models.DTO.Post;
@@ -15,11 +17,14 @@ namespace TechnologyBlogSolution.Services.Implementations
 {
     public class PostService : IPostService
     {
-        IPostRepository postRepository;
+        private IPostRepository postRepository;
+        private IDomainEventDispatcher dispatcher;
 
-        public PostService(IPostRepository postRepo)
+        public PostService(IPostRepository postRepo,
+                           IDomainEventDispatcher dispatcherDependency)
         {
             this.postRepository = postRepo;
+            this.dispatcher = dispatcherDependency;
         }
 
         public ListPostDto GetPost(int id)
@@ -45,6 +50,14 @@ namespace TechnologyBlogSolution.Services.Implementations
 
             this.postRepository.CreatePost(post);
             this.postRepository.Commit();
+
+            PostsAddedDomainEvent domainEvent = new PostsAddedDomainEvent()
+            {
+                Timestamp = DateTime.UtcNow,
+                NumberOfAddedPosts = 1
+            };
+
+            this.dispatcher.Dispatch(domainEvent);
         }
 
         public void EditPost(EditPostDto postDto)

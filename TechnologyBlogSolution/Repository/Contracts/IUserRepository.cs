@@ -7,7 +7,7 @@ using TechnologyBlogSolution.Models;
 
 namespace TechnologyBlogSolution.Repository.Contracts
 {
-    interface IUserRepository : IRepository<ApplicationUser>
+    public interface IUserRepository : IRepository<ApplicationUser>
     {
         IEnumerable<ApplicationUser> GetUsers();
         ApplicationUser GetUser(string id);

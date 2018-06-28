@@ -11,6 +11,9 @@ namespace TechnologyBlogSolution.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using Ninject.Web.Common.WebHost;
+    using TechnologyBlogSolution.DomainEvents.Contracts;
+    using TechnologyBlogSolution.DomainEvents.Implementations;
+    using TechnologyBlogSolution.DomainEvents.Implementations.Events;
     using TechnologyBlogSolution.Models.BlogModels;
     using TechnologyBlogSolution.Repository.Contracts;
     using TechnologyBlogSolution.Repository.Implementations;
@@ -55,12 +58,16 @@ namespace TechnologyBlogSolution.App_Start
                 kernel.Bind<IPostService>().To<PostService>();
                 kernel.Bind<ISeedService>().To<SeedService>();
                 kernel.Bind<ICommentService>().To<CommentService>();
+                kernel.Bind<IUserService>().To<UserService>();
 
                 kernel.Bind<ISubjectRepository>().To<SubjectRepository>();
                 kernel.Bind<IPostRepository>().To<PostRepository>();
                 kernel.Bind<ISeedRepository>().To<SeedRepository>();
                 kernel.Bind<ICommentRepository>().To<CommentRepository>();
+                kernel.Bind<IUserRepository>().To<UserRepository>();
+
                 kernel.Bind(typeof(IRepository<Subject>)).To(typeof(Repository<Subject>));
+                kernel.Bind(typeof(IDomainEventDispatcher)).To(typeof(DomainEventDispatcher));
 
                 RegisterServices(kernel);
                 return kernel;

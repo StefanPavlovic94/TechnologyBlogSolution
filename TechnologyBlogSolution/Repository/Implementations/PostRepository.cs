@@ -40,15 +40,11 @@ namespace TechnologyBlogSolution.Repository.Implementations
         /// <returns></returns>
         public void CreatePost(Post post)
         {
-                this.DbContext.Subjects
-                    .Where(subj => subj.Id == post.Subject_Id)
-                    .Update(s => new Subject()
-                    {
-                        Posts = new List<Post>()
-                        {
-                            post
-                        }
-                    });
+            this.DbContext.Subjects
+                .FirstOrDefault(subj => subj.Id == post.Subject_Id)
+                .Posts.Add(post);
+
+            this.DbContext.Entry(post).State = EntityState.Added;
         }
 
         /// <summary>

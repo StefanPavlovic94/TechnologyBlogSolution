@@ -239,6 +239,14 @@
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\SeederController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="DomainEvents\Contracts\IDomainEvent.cs" />
+    <Compile Include="DomainEvents\Contracts\IDomainEventHandler.cs" />
+    <Compile Include="DomainEvents\Contracts\IDomainEventDispatcher.cs" />
+    <Compile Include="DomainEvents\Implementations\DomainEventDispatcher.cs" />
+    <Compile Include="DomainEvents\Implementations\Events\PostsAddedDomainEvent.cs" />
+    <Compile Include="DomainEvents\Implementations\Events\SubjectAddedDomainEvent.cs" />
+    <Compile Include="DomainEvents\Implementations\Handlers\PostsAddedDomainEventHandler.cs" />
+    <Compile Include="DomainEvents\Implementations\Handlers\SubjectAddedDomainEventHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -312,9 +320,11 @@
     <Compile Include="Services\Contracts\ICommentService.cs" />
     <Compile Include="Services\Contracts\IPostService.cs" />
     <Compile Include="Services\Contracts\ISeedService.cs" />
+    <Compile Include="Services\Contracts\IUserService.cs" />
     <Compile Include="Services\Implementations\CommentService.cs" />
     <Compile Include="Services\Implementations\PostService.cs" />
     <Compile Include="Services\Implementations\SeedService.cs" />
+    <Compile Include="Services\Implementations\UserService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Utilities\AutomapperProfile.cs" />

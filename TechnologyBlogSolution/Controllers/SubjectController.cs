@@ -82,6 +82,13 @@ namespace TechnologyBlogSolution.Controllers
                 = Mapper.Map<SubjectsPartialView>(subjectPartial);
             return PartialView("SubjectsPartial", subjectsPartialView);
         }
+
+        [HttpGet]
+        public ActionResult CountSubjects()
+        {
+            int subjectCount = this.subjectService.CountSubjects();
+            return Json(subjectCount, JsonRequestBehavior.AllowGet);
+        }
     }
 
 }

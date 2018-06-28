@@ -4,7 +4,8 @@
 }
 
 <div class="jumbotron">
-    Hello world
+    Welcome to tech blog. we currently have <b id="subjects-count"></b> subjects, <b id="posts-count"></b> posts and <b id="comments-count"></b> comments.
+    We are community of <b id="users-count"></b> users. 
 </div>
 
 <div class="row">
@@ -36,27 +37,59 @@
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script>
-    function showMore(postId)
-    {
+    function showMore(postId) {
         $.ajax({
             "url": "/Post/GetPost?postId=" + postId,
             "dataType": "json",
-            success: function (data)
-            {
+            success: function (data) {
                 $(`#list-post-${postId}`).val(data.Content);
             }
         })
     }
 
-    $(document).ready(function ()
-    {
+    $(document).ready(function () {
         $.ajax({
             "url": "/Comment/GetLatestCommentsPartial",
             "type": "get",
-            success: function (data)
-            {
+            success: function (data) {
                 $("#latest-comments-containter").html(data);
             }
         })
     })
+
+    $(document).ready(function ()
+    {
+        $.ajax({
+            "url": "/Subject/CountSubjects",
+            "type": "get",
+            success: function (subjectsCount)
+            {
+                $("#subjects-count").html(subjectsCount);
+            }
+        });
+
+        $.ajax({
+            "url": "/Post/CountPosts",
+            "type": "get",
+            success: function (postsCount) {
+                $("#posts-count").html(postsCount);
+            }
+        });
+
+        $.ajax({
+            "url": "/Comment/CountComments",
+            "type": "get",
+            success: function (commentsCount) {
+                $("#comments-count").html(commentsCount);
+            }
+        });
+
+        $.ajax({
+            "url": "/Account/CountUsers",
+            "type": "get",
+            success: function (usersCount) {
+                $("#users-count").html(usersCount);
+            }
+        });
+    });
 </script>
